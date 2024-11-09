@@ -32,7 +32,7 @@
             textBox1 = new TextBox();
             button2 = new Button();
             button3 = new Button();
-            button4 = new Button();
+            boton7 = new Button();
             button5 = new Button();
             button6 = new Button();
             button16 = new Button();
@@ -89,15 +89,15 @@
             button3.Text = "Data";
             button3.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // boton7
             // 
-            button4.Location = new Point(31, 163);
-            button4.Name = "button4";
-            button4.Size = new Size(53, 49);
-            button4.TabIndex = 5;
-            button4.Text = "7";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            boton7.Location = new Point(31, 163);
+            boton7.Name = "boton7";
+            boton7.Size = new Size(53, 49);
+            boton7.TabIndex = 5;
+            boton7.Text = "7";
+            boton7.UseVisualStyleBackColor = true;
+            boton7.Click += button4_Click;
             // 
             // button5
             // 
@@ -286,7 +286,7 @@
             Controls.Add(button16);
             Controls.Add(button6);
             Controls.Add(button5);
-            Controls.Add(button4);
+            Controls.Add(boton7);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(textBox1);
@@ -304,7 +304,7 @@
         private TextBox textBox1;
         private Button button2;
         private Button button3;
-        private Button button4;
+        private Button boton7;
         private Button button5;
         private Button button6;
         private Button button16;
