@@ -34,7 +34,7 @@ namespace CalculadoraMVCMulticapas.Controllers
             };
         }
 
-        public void ProcesarOperacionPendiente()
+        public void ProcesarOperacionPendiente() //Se usa en caso de que anteriormente hubiera una operación realizada anteriormente y su resultado esté guardado en Operador1
         {
             double numeroActual = Convert.ToDouble(_form1.PantallaDeResultado.Text);
 
@@ -45,18 +45,18 @@ namespace CalculadoraMVCMulticapas.Controllers
                 switch (_form1.operacionActual)
                 {
                     case "+":
-                        calculadoraModel.Sumar();
+                        _Model.Sumar();
                         break;
                     case "-":
-                        calculadoraModel.Restar();
+                        _Model.Restar();
                         break;
                     case "*":
-                        calculadoraModel.Multiplicar();
+                        _Model.Multiplicar();
                         break;
                     case "/":
                         try
                         {
-                            calculadoraModel.Dividir();
+                            _Model.Dividir();
                         }
                         catch (DivideByZeroException ex)
                         {
@@ -67,16 +67,19 @@ namespace CalculadoraMVCMulticapas.Controllers
                         break;
                 }
 
-                _form1.PantallaDeResultado.Text = calculadoraModel.resultado.ToString();
+                // Actualizamos la pantalla y el operador 1
+                _form1.PantallaDeResultado.Text = _Model.resultado.ToString();
                 _Model.Operador1 = _Model.resultado;
             }
             else
             {
+                // Si no hay operación previa, simplemente guardamos el número actual como Operador1
                 _Model.Operador1 = numeroActual;
             }
         }
 
-        public bool VerificarPrimo(int numero) => _Model.EsPrimoONo(numero);
+
+        public bool VerificarPrimo(int numero) => CalculadoraModelClass.EsPrimoONo(numero);
         public string ObtenerBinario(int numero) => _Model.ConvertirABinario(numero);
     }
 }

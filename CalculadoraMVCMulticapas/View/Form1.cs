@@ -7,7 +7,24 @@ namespace CalculadoraMVCMulticapas
     {
         private CalculadoraModelClass calculadoraModel = new CalculadoraModelClass();
         private CalculadoraControllerClass calculadoraController;
-
+        /// <summary>
+        /// /*
+        ///     -> PantallaListaParaNuevoNumero:
+        ///     Controla si la pantalla de la calculadora debe ser limpiada antes de escribir un nuevo 
+        ///     número. Esto ocurre después de que se haya seleccionado una operación (+, -, etc.) o 
+        ///     después de presionar el botón =.
+        ///             * Si está en true, se limpia la pantalla para que el usuario pueda escribir un 
+        ///                 nuevo número sin concatenar con el existente.
+        ///             *Cambia a false después de que el usuario comienza a ingresar un número, 
+        ///                 permitiendo concatenar números en lugar de limpiar repetidamente la pantalla.
+        ///                 
+        ///    -> ReiniciarCalculadora:
+        ///    Indica si se puede iniciar una nueva operación desde cero, como cuando se presiona el 
+        ///    botón C (limpiar). Su función principal es reiniciar el flujo de la calculadora.
+        ///             * Se asegura de que los operadores (Operador1 y Operador2) y la pantalla se reinicien,
+        ///                 dejando la calculadora lista para un nuevo cálculo.
+        /// */ 
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -15,164 +32,87 @@ namespace CalculadoraMVCMulticapas
     }
 
         public string operacionActual = ""; // Operación seleccionada
-        private bool nuevaOperacion = true; //En caso de una nueva operación limpiar la pantalla.
+        private bool PantallaListaParaNuevoNumero = true; //En caso de una nueva operación limpiar la pantalla.
+        private bool ReiniciarCalculadora = true; //En caso de que se esté realizando una nueva operación
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            //Botón número 7
-
-            if (PantallaDeResultado.Text == "0")
-            {
-                PantallaDeResultado.Text = "";
-            }
-
-            PantallaDeResultado.Text = PantallaDeResultado.Text + "7";
-
-        }
-
-        private void button11_Click(object sender, EventArgs e)
-        {
-            //Botón número 2
-            if (PantallaDeResultado.Text == "0") PantallaDeResultado.Text = "";
-            PantallaDeResultado.Text = PantallaDeResultado.Text + "2";
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            //Botón número 5
-            if (PantallaDeResultado.Text == "0") PantallaDeResultado.Text = "";
-            PantallaDeResultado.Text = PantallaDeResultado.Text + "5";
-        }
-
-        private void BotonLimpiar_Click(object sender, EventArgs e)
-        {
-            PantallaDeResultado.Text = "0";
-            calculadoraModel.Operador1 = 0;
-            calculadoraModel.Operador2 = 0;
-            NuevaOperadcionARealizar = true; //Reiniciar el estado de operación
-        }
-
-        private void PantallaDeResultado_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void botonNumero8_Click(object sender, EventArgs e)
-        {
-            //Botón número 8
-            if (PantallaDeResultado.Text == "0") PantallaDeResultado.Text = "";
-            PantallaDeResultado.Text = PantallaDeResultado.Text + "8";
-        }
-
-        private void botonNumero9_Click(object sender, EventArgs e)
-        {
-            //Botón número 9
-            if (PantallaDeResultado.Text == "0") PantallaDeResultado.Text = "";
-            PantallaDeResultado.Text = PantallaDeResultado.Text + "9";
-        }
-
-        private void botonNumero4_Click(object sender, EventArgs e)
-        {
-            //Botón número 4
-            if (PantallaDeResultado.Text == "0") PantallaDeResultado.Text = "";
-            PantallaDeResultado.Text = PantallaDeResultado.Text + "4";
-        }
-
-        private void botonNumero6_Click(object sender, EventArgs e)
-        {
-            //Botón número 6
-            if (PantallaDeResultado.Text == "0") PantallaDeResultado.Text = "";
-            PantallaDeResultado.Text = PantallaDeResultado.Text + "6";
-        }
-
-        private void botonNumero1_Click(object sender, EventArgs e)
-        {
-            //Botón número 1
-            if (PantallaDeResultado.Text == "0") PantallaDeResultado.Text = "";
-            PantallaDeResultado.Text = PantallaDeResultado.Text + "1";
-        }
-
-        private void botonNumero3_Click(object sender, EventArgs e)
-        {
-            //Botón número 3
-            if (PantallaDeResultado.Text == "0") PantallaDeResultado.Text = "";
-            PantallaDeResultado.Text = PantallaDeResultado.Text + "3";
-        }
-
-        private void botonNumero0_Click(object sender, EventArgs e)
-        {
-            PantallaDeResultado.Text = PantallaDeResultado.Text + "0";
-        }
-
-        private void botonDecimal_Click(object sender, EventArgs e)
-        {
-            PantallaDeResultado.Text = PantallaDeResultado.Text + ".";
-        }
-
-        private bool NuevaOperadcionARealizar = true; //En caso de que se esté realizando una nueva operación
-
         private void buttonSuma_Click(object sender, EventArgs e)
         {
             calculadoraController.ProcesarOperacionPendiente();
-            operacionActual = "+";
-            nuevaOperacion = true;
-
-        }
-
-        private void BotonMulti_Click(object sender, EventArgs e)
-        {
-            calculadoraController.ProcesarOperacionPendiente();
-            operacionActual = "*";
-            nuevaOperacion = true;
-        }
-
-        private void buttonDividir_Click(object sender, EventArgs e)
-        {
-            calculadoraController.ProcesarOperacionPendiente();
-            operacionActual = "/";
-            nuevaOperacion = true;
+            operacionActual = "+"; // Guardamos la operación actual
+            PantallaListaParaNuevoNumero = true; // Indicamos que se puede empezar una nueva entrada
         }
 
         private void botonResta_Click(object sender, EventArgs e)
         {
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "-";
-            nuevaOperacion = true;
+            PantallaListaParaNuevoNumero = true;
+        }
+
+        private void BotonMulti_Click(object sender, EventArgs e)
+        {
+            calculadoraController.ProcesarOperacionPendiente();
+            operacionActual = "*";
+            PantallaListaParaNuevoNumero = true;
+        }
+
+        private void buttonDividir_Click(object sender, EventArgs e)
+        {
+            calculadoraController.ProcesarOperacionPendiente();
+            operacionActual = "/";
+            PantallaListaParaNuevoNumero = true;
+        }
+        private void BotonLimpiar_Click(object sender, EventArgs e)
+        {
+            PantallaDeResultado.Text = "0";
+            calculadoraModel.Operador1 = 0;
+            calculadoraModel.Operador2 = 0;
+            ReiniciarCalculadora = true; //Reiniciar el estado de operación
+        }
+        private void botonDecimal_Click(object sender, EventArgs e)
+        {
+            PantallaDeResultado.Text = PantallaDeResultado.Text + ".";
         }
 
         private void BotonIgual_Click(object sender, EventArgs e)
         {
-            calculadoraController.ProcesarOperacionPendiente(); //Para procesar lo que ya esté en memoria
-            operacionActual = ""; //Limpiar la operación actual
-            nuevaOperacion = true; //Permite iniciar un nuevo cálculo
+            calculadoraController.ProcesarOperacionPendiente();
+            operacionActual = ""; // Limpiamos la operación actual
+            PantallaListaParaNuevoNumero = true;
         }
+        private void EsprimoONo(object sender, EventArgs e)
+        {
+            bool Resultado = calculadoraController.VerificarPrimo(Convert.ToInt32(PantallaDeResultado.Text));
+            PantallaDeResultado.Text = Convert.ToString(Resultado);
 
-        private void botonNumero_Click(object sender, EventArgs e)
+        }
+        private void botonNumero_Click(object sender, EventArgs e) //Para no tener que hacer un método por botón, en FormsDisigner en los botones se llama este método.
         {
             Button boton = (Button)sender;
 
-            if (nuevaOperacion)
+            if (PantallaListaParaNuevoNumero)
             {
-                PantallaDeResultado.Text = "";
-                nuevaOperacion = false;
+                PantallaDeResultado.Text = ""; // Limpia la pantalla si es una nueva operación
+                PantallaListaParaNuevoNumero = false;
             }
 
-            PantallaDeResultado.Text += boton.Text;
+            PantallaDeResultado.Text += boton.Text; // Agrega el número presionado a la pantalla
+        }
+
+        private void MostrarEnBinario(object sender, EventArgs e)
+        {
+            string Resultado = calculadoraController.ObtenerBinario(Convert.ToInt32(PantallaDeResultado.Text));
+            PantallaDeResultado.Text = Resultado;
+        }
+
+
+        private void PantallaDeResultado_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

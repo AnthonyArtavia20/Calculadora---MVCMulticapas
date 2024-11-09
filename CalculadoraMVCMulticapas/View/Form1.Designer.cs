@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            botonBinario = new Button();
             PantallaDeResultado = new TextBox();
-            button2 = new Button();
+            BotonEsPrimoONo = new Button();
             button3 = new Button();
             boton7 = new Button();
             botonNumero8 = new Button();
@@ -53,15 +53,15 @@
             botonSuma = new Button();
             SuspendLayout();
             // 
-            // button1
+            // botonBinario
             // 
-            button1.Location = new Point(31, 78);
-            button1.Name = "button1";
-            button1.Size = new Size(163, 23);
-            button1.TabIndex = 0;
-            button1.Text = "Binario";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            botonBinario.Location = new Point(31, 78);
+            botonBinario.Name = "botonBinario";
+            botonBinario.Size = new Size(163, 23);
+            botonBinario.TabIndex = 0;
+            botonBinario.Text = "Binario";
+            botonBinario.UseVisualStyleBackColor = true;
+            botonBinario.Click += MostrarEnBinario;
             // 
             // PantallaDeResultado
             // 
@@ -72,15 +72,15 @@
             PantallaDeResultado.Text = "0";
             PantallaDeResultado.TextChanged += PantallaDeResultado_TextChanged;
             // 
-            // button2
+            // BotonEsPrimoONo
             // 
-            button2.Location = new Point(31, 107);
-            button2.Name = "button2";
-            button2.Size = new Size(163, 23);
-            button2.TabIndex = 3;
-            button2.Text = "Primo";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            BotonEsPrimoONo.Location = new Point(31, 107);
+            BotonEsPrimoONo.Name = "BotonEsPrimoONo";
+            BotonEsPrimoONo.Size = new Size(163, 23);
+            BotonEsPrimoONo.TabIndex = 3;
+            BotonEsPrimoONo.Text = "Primo";
+            BotonEsPrimoONo.UseVisualStyleBackColor = true;
+            BotonEsPrimoONo.Click += EsprimoONo;
             // 
             // button3
             // 
@@ -99,7 +99,7 @@
             boton7.TabIndex = 5;
             boton7.Text = "7";
             boton7.UseVisualStyleBackColor = true;
-            boton7.Click += button4_Click;
+            boton7.Click += botonNumero_Click;
             // 
             // botonNumero8
             // 
@@ -109,7 +109,7 @@
             botonNumero8.TabIndex = 6;
             botonNumero8.Text = "8";
             botonNumero8.UseVisualStyleBackColor = true;
-            botonNumero8.Click += botonNumero8_Click;
+            botonNumero8.Click += botonNumero_Click;
             // 
             // botonNumero9
             // 
@@ -119,7 +119,7 @@
             botonNumero9.TabIndex = 7;
             botonNumero9.Text = "9";
             botonNumero9.UseVisualStyleBackColor = true;
-            botonNumero9.Click += botonNumero9_Click;
+            botonNumero9.Click += botonNumero_Click;
             // 
             // button16
             // 
@@ -157,7 +157,7 @@
             botonNumero6.TabIndex = 22;
             botonNumero6.Text = "6";
             botonNumero6.UseVisualStyleBackColor = true;
-            botonNumero6.Click += botonNumero6_Click;
+            botonNumero6.Click += botonNumero_Click;
             // 
             // botonNumero5
             // 
@@ -167,7 +167,7 @@
             botonNumero5.TabIndex = 21;
             botonNumero5.Text = "5";
             botonNumero5.UseVisualStyleBackColor = true;
-            botonNumero5.Click += button8_Click;
+            botonNumero5.Click += botonNumero_Click;
             // 
             // botonNumero4
             // 
@@ -177,7 +177,7 @@
             botonNumero4.TabIndex = 20;
             botonNumero4.Text = "4";
             botonNumero4.UseVisualStyleBackColor = true;
-            botonNumero4.Click += botonNumero4_Click;
+            botonNumero4.Click += botonNumero_Click;
             // 
             // botonNumero3
             // 
@@ -187,7 +187,7 @@
             botonNumero3.TabIndex = 25;
             botonNumero3.Text = "3";
             botonNumero3.UseVisualStyleBackColor = true;
-            botonNumero3.Click += botonNumero3_Click;
+            botonNumero3.Click += botonNumero_Click;
             // 
             // botonNumero2
             // 
@@ -197,7 +197,7 @@
             botonNumero2.TabIndex = 24;
             botonNumero2.Text = "2";
             botonNumero2.UseVisualStyleBackColor = true;
-            botonNumero2.Click += button11_Click;
+            botonNumero2.Click += botonNumero_Click;
             // 
             // botonNumero1
             // 
@@ -207,7 +207,7 @@
             botonNumero1.TabIndex = 23;
             botonNumero1.Text = "1";
             botonNumero1.UseVisualStyleBackColor = true;
-            botonNumero1.Click += botonNumero1_Click;
+            botonNumero1.Click += botonNumero_Click;
             // 
             // botonDecimal
             // 
@@ -237,7 +237,7 @@
             botonNumero0.TabIndex = 26;
             botonNumero0.Text = "0";
             botonNumero0.UseVisualStyleBackColor = true;
-            botonNumero0.Click += botonNumero0_Click;
+            botonNumero0.Click += botonNumero_Click;
             // 
             // botonDividir
             // 
@@ -304,9 +304,9 @@
             Controls.Add(botonNumero8);
             Controls.Add(boton7);
             Controls.Add(button3);
-            Controls.Add(button2);
+            Controls.Add(BotonEsPrimoONo);
             Controls.Add(PantallaDeResultado);
-            Controls.Add(button1);
+            Controls.Add(botonBinario);
             Name = "Form1";
             Text = "Calculadora - MVCMulticapas";
             Load += Form1_Load;
@@ -316,9 +316,9 @@
 
         #endregion
 
-        private Button button1;
+        private Button botonBinario;
         public TextBox PantallaDeResultado;
-        private Button button2;
+        private Button BotonEsPrimoONo;
         private Button button3;
         private Button boton7;
         private Button botonNumero8;
