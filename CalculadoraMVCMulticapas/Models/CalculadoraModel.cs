@@ -20,6 +20,7 @@ namespace CalculadoraMVCMulticapas.Models
             return resultado = Operador1 / Operador2;
         }
 
+        //Se hizo estática para poder acceder a los datos de la instancia
         public static bool EsPrimoONo(int Numero)
         {
             if (Numero < 2)

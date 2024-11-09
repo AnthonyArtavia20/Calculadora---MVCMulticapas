@@ -19,21 +19,6 @@ namespace CalculadoraMVCMulticapas.Controllers
             _form1 = form1; //Se guarda la referencia de la parte gráfica para poder acceder a las variables.
         }
 
-        public double RealizacionOperaciones(double operando1, double operando2, string operacion)
-        {
-            _Model.Operador1 = operando1;
-            _Model.Operador2 = operando2;
-
-            return operacion switch
-            {
-                "+" => _Model.Sumar(),
-                "-" => _Model.Restar(),
-                "*" => _Model.Multiplicar(),
-                "/" => _Model.Dividir(),
-                _ => throw new InvalidOperationException("Tipo de operación no sorportada...")
-            };
-        }
-
         public void ProcesarOperacionPendiente() //Se usa en caso de que anteriormente hubiera una operación realizada anteriormente y su resultado esté guardado en Operador1
         {
             double numeroActual = Convert.ToDouble(_form1.PantallaDeResultado.Text);
@@ -77,7 +62,6 @@ namespace CalculadoraMVCMulticapas.Controllers
                 _Model.Operador1 = numeroActual;
             }
         }
-
 
         public bool VerificarPrimo(int numero) => CalculadoraModelClass.EsPrimoONo(numero);
         public string ObtenerBinario(int numero) => _Model.ConvertirABinario(numero);
