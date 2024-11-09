@@ -1,0 +1,26 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.vscode/
+*.log
+*.obj
+*.exe
+*.dll
+*.pdb
+*.cache
+*.csproj.user
+*.dbmdl
+*.log
+*.pidb
+*.idb
+
+# Build folders
+bin/
+obj/
+Debug/
+Release/
+
+# Otros archivos generados automáticamente
+*.ipch
+*.aps
