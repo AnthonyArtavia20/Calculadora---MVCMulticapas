@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace CalculadoraMVCMulticapas.Data
+﻿namespace CalculadoraMVCMulticapas.Data
 {
     public class BitacoraRepository
     {
@@ -13,7 +11,7 @@ namespace CalculadoraMVCMulticapas.Data
 
         public string LeerBitacora()
         {
-            return File.Exists(_path) ? File.ReadAllText(_path) : "No hay registros..."; 
+            return File.Exists(_path) ? File.ReadAllText(_path) : "No hay registros...";
         }
     }
 }

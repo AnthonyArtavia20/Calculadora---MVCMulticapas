@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             button1 = new Button();
-            textBox1 = new TextBox();
+            PantallaDeResultado = new TextBox();
             button2 = new Button();
             button3 = new Button();
             boton7 = new Button();
-            button5 = new Button();
-            button6 = new Button();
+            botonNumero8 = new Button();
+            botonNumero9 = new Button();
             button16 = new Button();
             button17 = new Button();
-            button18 = new Button();
-            button7 = new Button();
-            button8 = new Button();
-            button9 = new Button();
-            button10 = new Button();
-            button11 = new Button();
-            button12 = new Button();
-            button13 = new Button();
-            button14 = new Button();
-            button15 = new Button();
-            button19 = new Button();
-            button20 = new Button();
-            button21 = new Button();
-            button22 = new Button();
+            BotonIgual = new Button();
+            botonNumero6 = new Button();
+            botonNumero5 = new Button();
+            botonNumero4 = new Button();
+            botonNumero3 = new Button();
+            botonNumero2 = new Button();
+            botonNumero1 = new Button();
+            botonDecimal = new Button();
+            BotonLimpiar = new Button();
+            botonNumero0 = new Button();
+            botonDividir = new Button();
+            BotonMultiplicar = new Button();
+            botonResta = new Button();
+            botonSuma = new Button();
             SuspendLayout();
             // 
             // button1
@@ -63,12 +63,14 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // textBox1
+            // PantallaDeResultado
             // 
-            textBox1.Location = new Point(31, 26);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(314, 23);
-            textBox1.TabIndex = 2;
+            PantallaDeResultado.Location = new Point(31, 26);
+            PantallaDeResultado.Name = "PantallaDeResultado";
+            PantallaDeResultado.Size = new Size(314, 23);
+            PantallaDeResultado.TabIndex = 2;
+            PantallaDeResultado.Text = "0";
+            PantallaDeResultado.TextChanged += PantallaDeResultado_TextChanged;
             // 
             // button2
             // 
@@ -99,23 +101,25 @@
             boton7.UseVisualStyleBackColor = true;
             boton7.Click += button4_Click;
             // 
-            // button5
+            // botonNumero8
             // 
-            button5.Location = new Point(90, 163);
-            button5.Name = "button5";
-            button5.Size = new Size(53, 49);
-            button5.TabIndex = 6;
-            button5.Text = "8";
-            button5.UseVisualStyleBackColor = true;
+            botonNumero8.Location = new Point(90, 163);
+            botonNumero8.Name = "botonNumero8";
+            botonNumero8.Size = new Size(53, 49);
+            botonNumero8.TabIndex = 6;
+            botonNumero8.Text = "8";
+            botonNumero8.UseVisualStyleBackColor = true;
+            botonNumero8.Click += botonNumero8_Click;
             // 
-            // button6
+            // botonNumero9
             // 
-            button6.Location = new Point(149, 163);
-            button6.Name = "button6";
-            button6.Size = new Size(53, 49);
-            button6.TabIndex = 7;
-            button6.Text = "9";
-            button6.UseVisualStyleBackColor = true;
+            botonNumero9.Location = new Point(149, 163);
+            botonNumero9.Name = "botonNumero9";
+            botonNumero9.Size = new Size(53, 49);
+            botonNumero9.TabIndex = 7;
+            botonNumero9.Text = "9";
+            botonNumero9.UseVisualStyleBackColor = true;
+            botonNumero9.Click += botonNumero9_Click;
             // 
             // button16
             // 
@@ -135,161 +139,173 @@
             button17.Text = "M+";
             button17.UseVisualStyleBackColor = true;
             // 
-            // button18
+            // BotonIgual
             // 
-            button18.Location = new Point(278, 273);
-            button18.Name = "button18";
-            button18.Size = new Size(67, 104);
-            button18.TabIndex = 19;
-            button18.Text = "=";
-            button18.UseVisualStyleBackColor = true;
+            BotonIgual.Location = new Point(278, 273);
+            BotonIgual.Name = "BotonIgual";
+            BotonIgual.Size = new Size(67, 104);
+            BotonIgual.TabIndex = 19;
+            BotonIgual.Text = "=";
+            BotonIgual.UseVisualStyleBackColor = true;
+            BotonIgual.Click += BotonIgual_Click;
             // 
-            // button7
+            // botonNumero6
             // 
-            button7.Location = new Point(149, 218);
-            button7.Name = "button7";
-            button7.Size = new Size(53, 49);
-            button7.TabIndex = 22;
-            button7.Text = "6";
-            button7.UseVisualStyleBackColor = true;
+            botonNumero6.Location = new Point(149, 218);
+            botonNumero6.Name = "botonNumero6";
+            botonNumero6.Size = new Size(53, 49);
+            botonNumero6.TabIndex = 22;
+            botonNumero6.Text = "6";
+            botonNumero6.UseVisualStyleBackColor = true;
+            botonNumero6.Click += botonNumero6_Click;
             // 
-            // button8
+            // botonNumero5
             // 
-            button8.Location = new Point(90, 218);
-            button8.Name = "button8";
-            button8.Size = new Size(53, 49);
-            button8.TabIndex = 21;
-            button8.Text = "5";
-            button8.UseVisualStyleBackColor = true;
-            button8.Click += button8_Click;
+            botonNumero5.Location = new Point(90, 218);
+            botonNumero5.Name = "botonNumero5";
+            botonNumero5.Size = new Size(53, 49);
+            botonNumero5.TabIndex = 21;
+            botonNumero5.Text = "5";
+            botonNumero5.UseVisualStyleBackColor = true;
+            botonNumero5.Click += button8_Click;
             // 
-            // button9
+            // botonNumero4
             // 
-            button9.Location = new Point(31, 218);
-            button9.Name = "button9";
-            button9.Size = new Size(53, 49);
-            button9.TabIndex = 20;
-            button9.Text = "4";
-            button9.UseVisualStyleBackColor = true;
+            botonNumero4.Location = new Point(31, 218);
+            botonNumero4.Name = "botonNumero4";
+            botonNumero4.Size = new Size(53, 49);
+            botonNumero4.TabIndex = 20;
+            botonNumero4.Text = "4";
+            botonNumero4.UseVisualStyleBackColor = true;
+            botonNumero4.Click += botonNumero4_Click;
             // 
-            // button10
+            // botonNumero3
             // 
-            button10.Location = new Point(149, 273);
-            button10.Name = "button10";
-            button10.Size = new Size(53, 49);
-            button10.TabIndex = 25;
-            button10.Text = "3";
-            button10.UseVisualStyleBackColor = true;
+            botonNumero3.Location = new Point(149, 273);
+            botonNumero3.Name = "botonNumero3";
+            botonNumero3.Size = new Size(53, 49);
+            botonNumero3.TabIndex = 25;
+            botonNumero3.Text = "3";
+            botonNumero3.UseVisualStyleBackColor = true;
+            botonNumero3.Click += botonNumero3_Click;
             // 
-            // button11
+            // botonNumero2
             // 
-            button11.Location = new Point(90, 273);
-            button11.Name = "button11";
-            button11.Size = new Size(53, 49);
-            button11.TabIndex = 24;
-            button11.Text = "2";
-            button11.UseVisualStyleBackColor = true;
-            button11.Click += button11_Click;
+            botonNumero2.Location = new Point(90, 273);
+            botonNumero2.Name = "botonNumero2";
+            botonNumero2.Size = new Size(53, 49);
+            botonNumero2.TabIndex = 24;
+            botonNumero2.Text = "2";
+            botonNumero2.UseVisualStyleBackColor = true;
+            botonNumero2.Click += button11_Click;
             // 
-            // button12
+            // botonNumero1
             // 
-            button12.Location = new Point(31, 273);
-            button12.Name = "button12";
-            button12.Size = new Size(53, 49);
-            button12.TabIndex = 23;
-            button12.Text = "1";
-            button12.UseVisualStyleBackColor = true;
+            botonNumero1.Location = new Point(31, 273);
+            botonNumero1.Name = "botonNumero1";
+            botonNumero1.Size = new Size(53, 49);
+            botonNumero1.TabIndex = 23;
+            botonNumero1.Text = "1";
+            botonNumero1.UseVisualStyleBackColor = true;
+            botonNumero1.Click += botonNumero1_Click;
             // 
-            // button13
+            // botonDecimal
             // 
-            button13.Location = new Point(149, 328);
-            button13.Name = "button13";
-            button13.Size = new Size(53, 49);
-            button13.TabIndex = 28;
-            button13.Text = ".";
-            button13.UseVisualStyleBackColor = true;
+            botonDecimal.Location = new Point(149, 328);
+            botonDecimal.Name = "botonDecimal";
+            botonDecimal.Size = new Size(53, 49);
+            botonDecimal.TabIndex = 28;
+            botonDecimal.Text = ".";
+            botonDecimal.UseVisualStyleBackColor = true;
+            botonDecimal.Click += botonDecimal_Click;
             // 
-            // button14
+            // BotonLimpiar
             // 
-            button14.Location = new Point(90, 328);
-            button14.Name = "button14";
-            button14.Size = new Size(53, 49);
-            button14.TabIndex = 27;
-            button14.Text = "c";
-            button14.UseVisualStyleBackColor = true;
+            BotonLimpiar.Location = new Point(90, 328);
+            BotonLimpiar.Name = "BotonLimpiar";
+            BotonLimpiar.Size = new Size(53, 49);
+            BotonLimpiar.TabIndex = 27;
+            BotonLimpiar.Text = "c";
+            BotonLimpiar.UseVisualStyleBackColor = true;
+            BotonLimpiar.Click += BotonLimpiar_Click;
             // 
-            // button15
+            // botonNumero0
             // 
-            button15.Location = new Point(31, 328);
-            button15.Name = "button15";
-            button15.Size = new Size(53, 49);
-            button15.TabIndex = 26;
-            button15.Text = "0";
-            button15.UseVisualStyleBackColor = true;
+            botonNumero0.Location = new Point(31, 328);
+            botonNumero0.Name = "botonNumero0";
+            botonNumero0.Size = new Size(53, 49);
+            botonNumero0.TabIndex = 26;
+            botonNumero0.Text = "0";
+            botonNumero0.UseVisualStyleBackColor = true;
+            botonNumero0.Click += botonNumero0_Click;
             // 
-            // button19
+            // botonDividir
             // 
-            button19.Location = new Point(219, 163);
-            button19.Name = "button19";
-            button19.Size = new Size(53, 49);
-            button19.TabIndex = 29;
-            button19.Text = "/";
-            button19.UseVisualStyleBackColor = true;
+            botonDividir.Location = new Point(219, 163);
+            botonDividir.Name = "botonDividir";
+            botonDividir.Size = new Size(53, 49);
+            botonDividir.TabIndex = 29;
+            botonDividir.Text = "/";
+            botonDividir.UseVisualStyleBackColor = true;
+            botonDividir.Click += buttonDividir_Click;
             // 
-            // button20
+            // BotonMultiplicar
             // 
-            button20.Location = new Point(219, 218);
-            button20.Name = "button20";
-            button20.Size = new Size(53, 49);
-            button20.TabIndex = 30;
-            button20.Text = "*";
-            button20.UseVisualStyleBackColor = true;
+            BotonMultiplicar.Location = new Point(219, 218);
+            BotonMultiplicar.Name = "BotonMultiplicar";
+            BotonMultiplicar.Size = new Size(53, 49);
+            BotonMultiplicar.TabIndex = 30;
+            BotonMultiplicar.Text = "*";
+            BotonMultiplicar.UseVisualStyleBackColor = true;
+            BotonMultiplicar.Click += BotonMulti_Click;
             // 
-            // button21
+            // botonResta
             // 
-            button21.Location = new Point(219, 273);
-            button21.Name = "button21";
-            button21.Size = new Size(53, 49);
-            button21.TabIndex = 31;
-            button21.Text = "-";
-            button21.UseVisualStyleBackColor = true;
+            botonResta.Location = new Point(219, 273);
+            botonResta.Name = "botonResta";
+            botonResta.Size = new Size(53, 49);
+            botonResta.TabIndex = 31;
+            botonResta.Text = "-";
+            botonResta.UseVisualStyleBackColor = true;
+            botonResta.Click += botonResta_Click;
             // 
-            // button22
+            // botonSuma
             // 
-            button22.Location = new Point(219, 328);
-            button22.Name = "button22";
-            button22.Size = new Size(53, 49);
-            button22.TabIndex = 32;
-            button22.Text = "+";
-            button22.UseVisualStyleBackColor = true;
+            botonSuma.Location = new Point(219, 328);
+            botonSuma.Name = "botonSuma";
+            botonSuma.Size = new Size(53, 49);
+            botonSuma.TabIndex = 32;
+            botonSuma.Text = "+";
+            botonSuma.UseVisualStyleBackColor = true;
+            botonSuma.Click += buttonSuma_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(370, 450);
-            Controls.Add(button22);
-            Controls.Add(button21);
-            Controls.Add(button20);
-            Controls.Add(button19);
-            Controls.Add(button13);
-            Controls.Add(button14);
-            Controls.Add(button15);
-            Controls.Add(button10);
-            Controls.Add(button11);
-            Controls.Add(button12);
-            Controls.Add(button7);
-            Controls.Add(button8);
-            Controls.Add(button9);
-            Controls.Add(button18);
+            Controls.Add(botonSuma);
+            Controls.Add(botonResta);
+            Controls.Add(BotonMultiplicar);
+            Controls.Add(botonDividir);
+            Controls.Add(botonDecimal);
+            Controls.Add(BotonLimpiar);
+            Controls.Add(botonNumero0);
+            Controls.Add(botonNumero3);
+            Controls.Add(botonNumero2);
+            Controls.Add(botonNumero1);
+            Controls.Add(botonNumero6);
+            Controls.Add(botonNumero5);
+            Controls.Add(botonNumero4);
+            Controls.Add(BotonIgual);
             Controls.Add(button17);
             Controls.Add(button16);
-            Controls.Add(button6);
-            Controls.Add(button5);
+            Controls.Add(botonNumero9);
+            Controls.Add(botonNumero8);
             Controls.Add(boton7);
             Controls.Add(button3);
             Controls.Add(button2);
-            Controls.Add(textBox1);
+            Controls.Add(PantallaDeResultado);
             Controls.Add(button1);
             Name = "Form1";
             Text = "Calculadora - MVCMulticapas";
@@ -301,27 +317,27 @@
         #endregion
 
         private Button button1;
-        private TextBox textBox1;
+        public TextBox PantallaDeResultado;
         private Button button2;
         private Button button3;
         private Button boton7;
-        private Button button5;
-        private Button button6;
+        private Button botonNumero8;
+        private Button botonNumero9;
         private Button button16;
         private Button button17;
-        private Button button18;
-        private Button button7;
-        private Button button8;
-        private Button button9;
-        private Button button10;
-        private Button button11;
-        private Button button12;
-        private Button button13;
-        private Button button14;
-        private Button button15;
-        private Button button19;
-        private Button button20;
-        private Button button21;
-        private Button button22;
+        private Button BotonIgual;
+        private Button botonNumero6;
+        private Button botonNumero5;
+        private Button botonNumero4;
+        private Button botonNumero3;
+        private Button botonNumero2;
+        private Button botonNumero1;
+        private Button botonDecimal;
+        private Button BotonLimpiar;
+        private Button botonNumero0;
+        private Button botonDividir;
+        private Button BotonMultiplicar;
+        private Button botonResta;
+        private Button botonSuma;
     }
 }

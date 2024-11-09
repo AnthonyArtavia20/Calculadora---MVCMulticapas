@@ -4,14 +4,14 @@ namespace CalculadoraMVCMulticapas.Models
 
     public class CalculadoraModelClass
     {
-        public int Operador1 { get; set; }
-        public int Operador2 { get; set; }
-        public int resultado { get; private set; }
+        public double Operador1 = 0;
+        public double Operador2 = 0;
+        public double resultado { get; private set; }
 
-        public int Sumar() => resultado = Operador1 + Operador2;
-        public int Restar() => resultado = Operador1 - Operador2;
-        public int Multiplicar() => resultado = Operador1 * Operador2;
-        public int Dividir()
+        public double Sumar() => resultado = Operador1 + Operador2;
+        public double Restar() => resultado = Operador1 - Operador2;
+        public double Multiplicar() => resultado = Operador1 * Operador2;
+        public double Dividir()
         {
             if (Operador2 == 0) //En caso de que se haga una forma indeterminada C/0, C= constante.
             {
