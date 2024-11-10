@@ -55,6 +55,7 @@ namespace CalculadoraMVCMulticapas.Controllers
                 // Actualizamos la pantalla y el operador 1
                 _form1.ActualizarPantalla(_Model.resultado.ToString());
                 _Model.Operador1 = _Model.resultado;
+                _form1.operacionActual = ""; // Limpiar operación actual después de ejecutarla
             }
             else
             {
