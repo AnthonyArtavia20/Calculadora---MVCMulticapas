@@ -53,7 +53,7 @@ namespace CalculadoraMVCMulticapas.Controllers
                 }
 
                 // Actualizamos la pantalla y el operador 1
-                _form1.PantallaDeResultado.Text = _Model.resultado.ToString();
+                _form1.ActualizarPantalla(_Model.resultado.ToString());
                 _Model.Operador1 = _Model.resultado;
             }
             else
@@ -65,5 +65,15 @@ namespace CalculadoraMVCMulticapas.Controllers
 
         public bool VerificarPrimo(int numero) => CalculadoraModelClass.EsPrimoONo(numero);
         public string ObtenerBinario(int numero) => _Model.ConvertirABinario(numero);
+
+        //Se crea un método espécifico para reforzar la separación de identidades
+        //logrando comunicar Form1 con Controllers.
+
+        public void ReiniciarCalcu()
+        {
+            _Model.Operador1 = 0;
+            _Model.Operador2 = 0;
+            _form1.ActualizarPantalla("0"); //La vista se actualiza a través del controlador.
+        }
     }
 }

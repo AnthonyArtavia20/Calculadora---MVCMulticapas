@@ -5,7 +5,7 @@ namespace CalculadoraMVCMulticapas
 {
     public partial class Form1 : Form
     {
-        private CalculadoraModelClass calculadoraModel = new CalculadoraModelClass();
+
         private CalculadoraControllerClass calculadoraController;
         /// <summary>
         /// /*
@@ -29,7 +29,7 @@ namespace CalculadoraMVCMulticapas
         {
             InitializeComponent();
             calculadoraController = new CalculadoraControllerClass(this); //Pasar la instancia al forms
-    }
+        }
 
         public string operacionActual = ""; // Operación seleccionada
         private bool PantallaListaParaNuevoNumero = true; //En caso de una nueva operación limpiar la pantalla.
@@ -68,9 +68,7 @@ namespace CalculadoraMVCMulticapas
         }
         private void BotonLimpiar_Click(object sender, EventArgs e)
         {
-            PantallaDeResultado.Text = "0";
-            calculadoraModel.Operador1 = 0;
-            calculadoraModel.Operador2 = 0;
+            calculadoraController.ReiniciarCalcu();
             ReiniciarCalculadora = true; //Reiniciar el estado de operación
         }
         private void botonDecimal_Click(object sender, EventArgs e)
@@ -113,6 +111,11 @@ namespace CalculadoraMVCMulticapas
         private void PantallaDeResultado_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public void ActualizarPantalla(sting texto) //Método simple para que el controlador pueda actualizar la interfaz.
+        {
+            PantallaDeResultado.Text = texto;
         }
     }
 }
