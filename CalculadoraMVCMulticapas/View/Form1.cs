@@ -1,5 +1,4 @@
 using CalculadoraMVCMulticapas.Controllers;
-using CalculadoraMVCMulticapas.Models;
 
 namespace CalculadoraMVCMulticapas
 {
@@ -28,7 +27,10 @@ namespace CalculadoraMVCMulticapas
         public Form1()
         {
             InitializeComponent();
+            this.AcceptButton = null; //Deshabilita el comportamiento del Enter de contornear en azul un botón, evitando así poder hacer enter a la operación deseada.
             calculadoraController = new CalculadoraControllerClass(this); //Pasar la instancia al forms
+            this.KeyPreview = true; //Permite que el forms capture eventos de teclado
+            this.KeyDown += new KeyEventHandler(Form1_KeyDown); //Asocia el evento KeyDown al controlador de eventos.
         }
 
         public string operacionActual = ""; // Operación seleccionada
@@ -84,10 +86,15 @@ namespace CalculadoraMVCMulticapas
         }
         private void EsprimoONo(object sender, EventArgs e)
         {
-            bool Resultado = calculadoraController.VerificarPrimo(Convert.ToInt32(PantallaDeResultado.Text));
-            PantallaDeResultado.Text = Convert.ToString(Resultado);
-
+            int Resultado = Convert.ToInt32(PantallaDeResultado.Text);
+            calculadoraController.VerificarYGuardarPrimo(Resultado);
         }
+        private void MostrarEnBinario(object sender, EventArgs e)
+        {
+            int Resultado = Convert.ToInt32(PantallaDeResultado.Text);
+            calculadoraController.ConvertirYGuardarBinario(Resultado);
+        }
+
         private void botonNumero_Click(object sender, EventArgs e) //Para no tener que hacer un método por botón, en FormsDisigner en los botones se llama este método.
         {
             Button boton = (Button)sender;
@@ -101,21 +108,98 @@ namespace CalculadoraMVCMulticapas
             PantallaDeResultado.Text += boton.Text; // Agrega el número presionado a la pantalla
         }
 
-        private void MostrarEnBinario(object sender, EventArgs e)
-        {
-            string Resultado = calculadoraController.ObtenerBinario(Convert.ToInt32(PantallaDeResultado.Text));
-            PantallaDeResultado.Text = Resultado;
-        }
-
-
         private void PantallaDeResultado_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        public void ActualizarPantalla(sting texto) //Método simple para que el controlador pueda actualizar la interfaz.
+        public void ActualizarPantalla(string texto) //Método simple para que el controlador pueda actualizar la interfaz.
         {
             PantallaDeResultado.Text = texto;
+            PantallaListaParaNuevoNumero = true; //Todo listo para recibir otra entrada nueva.
         }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Detectar números (teclas del 0 al 9)
+            if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
+            {
+                // Convertir la tecla presionada en un número.
+                string numero = (e.KeyCode - Keys.D0).ToString();
+                AgregarNumeroPantalla(numero);
+            }
+            else if (e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus)
+            {
+                calculadoraController.ProcesarOperacionPendiente();
+                operacionActual = "+";
+                PantallaListaParaNuevoNumero = true;
+            }
+            else if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus)
+            {
+                calculadoraController.ProcesarOperacionPendiente();
+                operacionActual = "-";
+                PantallaListaParaNuevoNumero = true;
+            }
+            else if (e.KeyCode == Keys.Multiply)
+            {
+                calculadoraController.ProcesarOperacionPendiente();
+                operacionActual = "*";
+                PantallaListaParaNuevoNumero = true;
+            }
+            else if (e.KeyCode == Keys.Divide || e.KeyCode == Keys.OemQuestion)
+            {
+                calculadoraController.ProcesarOperacionPendiente();
+                operacionActual = "/";
+                PantallaListaParaNuevoNumero = true;
+            }
+            else if (e.KeyCode == Keys.Decimal || e.KeyCode == Keys.OemPeriod)
+            {
+                AgregarNumeroPantalla(".");
+            }
+            else if (e.KeyCode == Keys.Back)
+            {
+                // Retroceder un dígito
+                if (PantallaDeResultado.Text.Length > 0)
+                {
+                    PantallaDeResultado.Text = PantallaDeResultado.Text.Substring(0, PantallaDeResultado.Text.Length - 1);
+                }
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                calculadoraController.ProcesarOperacionPendiente(); // Procesar la operación igual.
+                operacionActual = ""; // Limpiar la operación actual.
+                PantallaListaParaNuevoNumero = true; // Preparar la pantalla para un nuevo número.
+                e.Handled = true; // Prevenir que el evento se propague al botón enfocado.
+            }
+            else if (e.KeyCode == Keys.Escape || e.KeyCode == Keys.C)
+            {
+                calculadoraController.ReiniciarCalcu();
+            }
+
+            // Prevenir que el evento se propague a otros controles si es necesario.
+            e.Handled = true;
+        }
+
+        private void AgregarNumeroPantalla(string numero)
+        {
+            if (PantallaListaParaNuevoNumero)
+            {
+                PantallaDeResultado.Text = ""; // Limpia la pantalla si es una nueva operación
+                PantallaListaParaNuevoNumero = false;
+            }
+
+            // Validar punto decimal
+            if (numero == "." && PantallaDeResultado.Text.Contains("."))
+                return; // No permitir más de un punto decimal
+
+            // Validar ceros iniciales
+            if (PantallaDeResultado.Text == "0" && numero != ".")
+                PantallaDeResultado.Text = ""; // Reemplazar el "0" inicial si no es un decimal
+
+            // Concatenar número
+            PantallaDeResultado.Text += numero;
+        }
+
+
     }
 }

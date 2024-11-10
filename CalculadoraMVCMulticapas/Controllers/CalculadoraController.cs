@@ -1,7 +1,5 @@
+using CalculadoraMVCMulticapas.Data;
 using CalculadoraMVCMulticapas.Models;
-using System.Xml.XPath;
-using CalculadoraMVCMulticapas;
-using System.Configuration;
 
 
 namespace CalculadoraMVCMulticapas.Controllers
@@ -10,6 +8,7 @@ namespace CalculadoraMVCMulticapas.Controllers
     {
         private readonly CalculadoraModelClass _Model;
         private CalculadoraModelClass calculadoraModel = new CalculadoraModelClass();
+        private BitacoraRepository Bitacora = new BitacoraRepository();
         private Form1 _form1;
 
 
@@ -51,10 +50,13 @@ namespace CalculadoraMVCMulticapas.Controllers
                         }
                         break;
                 }
+                // Guardar operación básica
+                Bitacora.GuardarOperacionBasica(_Model.Operador1, _form1.operacionActual, _Model.Operador2, _Model.resultado);
 
                 // Actualizamos la pantalla y el operador 1
                 _form1.ActualizarPantalla(_Model.resultado.ToString());
                 _Model.Operador1 = _Model.resultado;
+                _form1.operacionActual = ""; // Limpiar operación actual después de ejecutarla
             }
             else
             {
@@ -63,12 +65,24 @@ namespace CalculadoraMVCMulticapas.Controllers
             }
         }
 
-        public bool VerificarPrimo(int numero) => CalculadoraModelClass.EsPrimoONo(numero);
-        public string ObtenerBinario(int numero) => _Model.ConvertirABinario(numero);
+        public void VerificarYGuardarPrimo(int numero)
+        {
+            bool esPrimo = CalculadoraModelClass.EsPrimoONo(numero);
+            string resultado = esPrimo ? "true" : "false"; // Formateo consistente
+            _form1.ActualizarPantalla($"Primo: {resultado}");
+            Bitacora.GuardarOperacionPrimo(numero, esPrimo);
+        }
+
+        public void ConvertirYGuardarBinario(int numero)
+        {
+            string binario = _Model.ConvertirABinario(numero);
+            _form1.ActualizarPantalla($"Binario: {binario}");
+            Bitacora.GuardarOperacionBinario(numero, binario);
+        }
+
 
         //Se crea un método espécifico para reforzar la separación de identidades
         //logrando comunicar Form1 con Controllers.
-
         public void ReiniciarCalcu()
         {
             _Model.Operador1 = 0;
