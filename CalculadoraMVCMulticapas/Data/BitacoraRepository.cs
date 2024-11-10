@@ -18,7 +18,7 @@
             }
 
             // Combinar con la carpeta Data
-            _path = Path.Combine(solutionDirectory, "Data", "Bitacora.txt");
+            _path = Path.Combine(solutionDirectory, "Data", "Bitácora.txt");
 
             // Verificar si el directorio existe, si no, crearlo
             string directory = Path.GetDirectoryName(_path);
