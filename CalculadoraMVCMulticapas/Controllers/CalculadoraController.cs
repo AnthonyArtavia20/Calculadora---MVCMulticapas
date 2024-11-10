@@ -51,7 +51,7 @@ namespace CalculadoraMVCMulticapas.Controllers
                         break;
                 }
                 // Guardar operación básica
-                GuardarOperacionBasica(_Model.Operador1, _form1.operacionActual, _Model.Operador2, _Model.resultado);
+                Bitacora.GuardarOperacionBasica(_Model.Operador1, _form1.operacionActual, _Model.Operador2, _Model.resultado);
 
                 // Actualizamos la pantalla y el operador 1
                 _form1.ActualizarPantalla(_Model.resultado.ToString());
@@ -70,14 +70,14 @@ namespace CalculadoraMVCMulticapas.Controllers
             bool esPrimo = CalculadoraModelClass.EsPrimoONo(numero);
             string resultado = esPrimo ? "true" : "false"; // Formateo consistente
             _form1.ActualizarPantalla($"Primo: {resultado}");
-            GuardarOperacionPrimo(numero, esPrimo);
+            Bitacora.GuardarOperacionPrimo(numero, esPrimo);
         }
 
         public void ConvertirYGuardarBinario(int numero)
         {
             string binario = _Model.ConvertirABinario(numero);
             _form1.ActualizarPantalla($"Binario: {binario}");
-            GuardarOperacionBinario(numero, binario);
+            Bitacora.GuardarOperacionBinario(numero, binario);
         }
 
 
@@ -89,36 +89,5 @@ namespace CalculadoraMVCMulticapas.Controllers
             _Model.Operador2 = 0;
             _form1.ActualizarPantalla("0"); //La vista se actualiza a través del controlador.
         }
-
-        public void GuardarOperacionBasica(double operador1, string operacion, double operador2, double resultado)
-        {
-            string registro = $"{operador1} {operacion} {operador2} = {resultado}";
-            Bitacora.GuardarOperacion(registro);
-        }
-
-        public void GuardarOperacionPrimo(double numero, bool esPrimo)
-        {
-            string registro = $"Primo {numero} {esPrimo}";
-            Bitacora.GuardarOperacion(registro);
-        }
-
-        public void GuardarOperacionBinario(double numero, string binario)
-        {
-            string registro = $"Binario {numero} {binario}";
-            Bitacora.GuardarOperacion(registro);
-        }
-
-        public void GuardarOperacionMemoria(string memoria)
-        {
-            string registro = $"M+ {memoria}";
-            Bitacora.GuardarOperacion(registro);
-        }
-
-        public void GuardarOperacionPromedio(string numerosMemoria, double promedio)
-        {
-            string registro = $"Avg {numerosMemoria} = {promedio}";
-            Bitacora.GuardarOperacion(registro);
-        }
-
     }
 }
