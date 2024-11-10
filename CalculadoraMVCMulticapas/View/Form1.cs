@@ -200,6 +200,46 @@ namespace CalculadoraMVCMulticapas
             PantallaDeResultado.Text += numero;
         }
 
+        private void ActualizarPanelBitacora()
+        {
+            try
+            {
+                PanelDeBitácora.Controls.Clear();
+                List<string> registros = calculadoraController.ObtenerRegistrosBitacora();
+                int yPosition = 10;
+                foreach (string registro in registros)
+                {
+                    Label label = new Label
+                    {
+                        Text = registro,
+                        AutoSize = true,
+                        Location = new Point(10, yPosition)
+                    };
+                    PanelDeBitácora.Controls.Add(label);
+                    yPosition += 25;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al actualizar la bitácora: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+
+        private void BitacoraPanel(object sender, PaintEventArgs e)
+        {
+        }
+
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // Alternar la visibilidad del panel
+            PanelDeBitácora.Visible = !PanelDeBitácora.Visible;
+
+            if (PanelDeBitácora.Visible)
+            {
+                ActualizarPanelBitacora();
+            }
+        }
     }
 }

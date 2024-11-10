@@ -51,6 +51,7 @@
             BotonMultiplicar = new Button();
             botonResta = new Button();
             botonSuma = new Button();
+            PanelDeBitácora = new Panel();
             SuspendLayout();
             // 
             // botonBinario
@@ -90,6 +91,7 @@
             button3.TabIndex = 4;
             button3.Text = "Data";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // boton7
             // 
@@ -279,11 +281,24 @@
             botonSuma.UseVisualStyleBackColor = true;
             botonSuma.Click += buttonSuma_Click;
             // 
+            // PanelDeBitácora
+            // 
+            PanelDeBitácora.AutoScroll = true;
+            PanelDeBitácora.BorderStyle = BorderStyle.FixedSingle;
+            PanelDeBitácora.Cursor = Cursors.Cross;
+            PanelDeBitácora.Location = new Point(13, 150);
+            PanelDeBitácora.Name = "PanelDeBitácora";
+            PanelDeBitácora.Size = new Size(200, 288);
+            PanelDeBitácora.TabIndex = 33;
+            PanelDeBitácora.Visible = false;
+            PanelDeBitácora.Paint += BitacoraPanel;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(370, 450);
+            Controls.Add(PanelDeBitácora);
             Controls.Add(botonSuma);
             Controls.Add(botonResta);
             Controls.Add(BotonMultiplicar);
@@ -339,5 +354,6 @@
         private Button BotonMultiplicar;
         private Button botonResta;
         private Button botonSuma;
+        private Panel PanelDeBitácora;
     }
 }

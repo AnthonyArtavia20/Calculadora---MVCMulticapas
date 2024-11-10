@@ -92,5 +92,13 @@
             string registro = $"Avg {numerosMemoria} = {promedio}";
             GuardarOperacion(registro);
         }
+
+        public List<string> ObtenerRegistros()
+        {
+            return File.Exists(_path)
+                ? File.ReadAllLines(_path).ToList()
+                : new List<string> { "No hay registros..." };
+        }
+
     }
 }

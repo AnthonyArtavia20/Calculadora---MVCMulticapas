@@ -89,5 +89,11 @@ namespace CalculadoraMVCMulticapas.Controllers
             _Model.Operador2 = 0;
             _form1.ActualizarPantalla("0"); //La vista se actualiza a través del controlador.
         }
+
+        public List<string> ObtenerRegistrosBitacora()
+        {
+            return Bitacora.ObtenerRegistros();
+        }
+
     }
 }
