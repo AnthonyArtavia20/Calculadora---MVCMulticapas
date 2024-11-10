@@ -1,7 +1,5 @@
+using CalculadoraMVCMulticapas.Data;
 using CalculadoraMVCMulticapas.Models;
-using System.Xml.XPath;
-using CalculadoraMVCMulticapas;
-using System.Configuration;
 
 
 namespace CalculadoraMVCMulticapas.Controllers
@@ -10,6 +8,7 @@ namespace CalculadoraMVCMulticapas.Controllers
     {
         private readonly CalculadoraModelClass _Model;
         private CalculadoraModelClass calculadoraModel = new CalculadoraModelClass();
+        private BitacoraRepository Bitacora = new BitacoraRepository();
         private Form1 _form1;
 
 
@@ -51,6 +50,8 @@ namespace CalculadoraMVCMulticapas.Controllers
                         }
                         break;
                 }
+                // Guardar operación básica
+                GuardarOperacionBasica(_Model.Operador1, _form1.operacionActual, _Model.Operador2, _Model.resultado);
 
                 // Actualizamos la pantalla y el operador 1
                 _form1.ActualizarPantalla(_Model.resultado.ToString());
@@ -64,17 +65,60 @@ namespace CalculadoraMVCMulticapas.Controllers
             }
         }
 
-        public bool VerificarPrimo(int numero) => CalculadoraModelClass.EsPrimoONo(numero);
-        public string ObtenerBinario(int numero) => _Model.ConvertirABinario(numero);
+        public void VerificarYGuardarPrimo(int numero)
+        {
+            bool esPrimo = CalculadoraModelClass.EsPrimoONo(numero);
+            string resultado = esPrimo ? "true" : "false"; // Formateo consistente
+            _form1.ActualizarPantalla($"Primo: {resultado}");
+            GuardarOperacionPrimo(numero, esPrimo);
+        }
+
+        public void ConvertirYGuardarBinario(int numero)
+        {
+            string binario = _Model.ConvertirABinario(numero);
+            _form1.ActualizarPantalla($"Binario: {binario}");
+            GuardarOperacionBinario(numero, binario);
+        }
+
 
         //Se crea un método espécifico para reforzar la separación de identidades
         //logrando comunicar Form1 con Controllers.
-
         public void ReiniciarCalcu()
         {
             _Model.Operador1 = 0;
             _Model.Operador2 = 0;
             _form1.ActualizarPantalla("0"); //La vista se actualiza a través del controlador.
         }
+
+        public void GuardarOperacionBasica(double operador1, string operacion, double operador2, double resultado)
+        {
+            string registro = $"{operador1} {operacion} {operador2} = {resultado}";
+            Bitacora.GuardarOperacion(registro);
+        }
+
+        public void GuardarOperacionPrimo(double numero, bool esPrimo)
+        {
+            string registro = $"Primo {numero} {esPrimo}";
+            Bitacora.GuardarOperacion(registro);
+        }
+
+        public void GuardarOperacionBinario(double numero, string binario)
+        {
+            string registro = $"Binario {numero} {binario}";
+            Bitacora.GuardarOperacion(registro);
+        }
+
+        public void GuardarOperacionMemoria(string memoria)
+        {
+            string registro = $"M+ {memoria}";
+            Bitacora.GuardarOperacion(registro);
+        }
+
+        public void GuardarOperacionPromedio(string numerosMemoria, double promedio)
+        {
+            string registro = $"Avg {numerosMemoria} = {promedio}";
+            Bitacora.GuardarOperacion(registro);
+        }
+
     }
 }

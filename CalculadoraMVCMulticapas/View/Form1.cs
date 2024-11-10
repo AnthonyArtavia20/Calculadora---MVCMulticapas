@@ -1,5 +1,4 @@
 using CalculadoraMVCMulticapas.Controllers;
-using CalculadoraMVCMulticapas.Models;
 
 namespace CalculadoraMVCMulticapas
 {
@@ -40,7 +39,7 @@ namespace CalculadoraMVCMulticapas
 
         private void Form1_Load(object sender, EventArgs e)
         {
-        
+
         }
         private void buttonSuma_Click(object sender, EventArgs e)
         {
@@ -87,10 +86,15 @@ namespace CalculadoraMVCMulticapas
         }
         private void EsprimoONo(object sender, EventArgs e)
         {
-            bool Resultado = calculadoraController.VerificarPrimo(Convert.ToInt32(PantallaDeResultado.Text));
-            PantallaDeResultado.Text = Convert.ToString(Resultado);
-
+            int Resultado = Convert.ToInt32(PantallaDeResultado.Text);
+            calculadoraController.VerificarYGuardarPrimo(Resultado);
         }
+        private void MostrarEnBinario(object sender, EventArgs e)
+        {
+            int Resultado = Convert.ToInt32(PantallaDeResultado.Text);
+            calculadoraController.ConvertirYGuardarBinario(Resultado);
+        }
+
         private void botonNumero_Click(object sender, EventArgs e) //Para no tener que hacer un método por botón, en FormsDisigner en los botones se llama este método.
         {
             Button boton = (Button)sender;
@@ -104,13 +108,6 @@ namespace CalculadoraMVCMulticapas
             PantallaDeResultado.Text += boton.Text; // Agrega el número presionado a la pantalla
         }
 
-        private void MostrarEnBinario(object sender, EventArgs e)
-        {
-            string Resultado = calculadoraController.ObtenerBinario(Convert.ToInt32(PantallaDeResultado.Text));
-            PantallaDeResultado.Text = Resultado;
-        }
-
-
         private void PantallaDeResultado_TextChanged(object sender, EventArgs e)
         {
 
@@ -119,6 +116,7 @@ namespace CalculadoraMVCMulticapas
         public void ActualizarPantalla(string texto) //Método simple para que el controlador pueda actualizar la interfaz.
         {
             PantallaDeResultado.Text = texto;
+            PantallaListaParaNuevoNumero = true; //Todo listo para recibir otra entrada nueva.
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
