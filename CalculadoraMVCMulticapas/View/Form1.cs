@@ -94,6 +94,11 @@ namespace CalculadoraMVCMulticapas
             int Resultado = Convert.ToInt32(PantallaDeResultado.Text);
             calculadoraController.ConvertirYGuardarBinario(Resultado);
         }
+        private void botonPromedio(object sender, EventArgs e)
+        {
+            double PromedioAMostrar = calculadoraController.SacarPromedioYMostrarlo();
+            PantallaDeResultado.Text = PromedioAMostrar.ToString();
+        }
 
         private void botonNumero_Click(object sender, EventArgs e) //Para no tener que hacer un método por botón, en FormsDisigner en los botones se llama este método.
         {
@@ -104,14 +109,9 @@ namespace CalculadoraMVCMulticapas
                 PantallaDeResultado.Text = ""; // Limpia la pantalla si es una nueva operación
                 PantallaListaParaNuevoNumero = false;
             }
-
             PantallaDeResultado.Text += boton.Text; // Agrega el número presionado a la pantalla
         }
 
-        private void PantallaDeResultado_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         public void ActualizarPantalla(string texto) //Método simple para que el controlador pueda actualizar la interfaz.
         {
@@ -225,12 +225,6 @@ namespace CalculadoraMVCMulticapas
             }
         }
 
-
-        private void BitacoraPanel(object sender, PaintEventArgs e)
-        {
-        }
-
-
         private void button3_Click(object sender, EventArgs e)
         {
             // Alternar la visibilidad del panel
@@ -240,6 +234,20 @@ namespace CalculadoraMVCMulticapas
             {
                 ActualizarPanelBitacora();
             }
+        }
+
+        private void AñadirAMemoria_Click(object sender, EventArgs e)
+        {
+            //Se podría acceder directamente a Data, pero incumple los principios de MVC y la separación de responsabilidades.
+            double numero = Convert.ToDouble(PantallaDeResultado.Text);
+            calculadoraController.GuardarEnMemoria(numero);
+        }
+
+        private void BitacoraPanel(object sender, PaintEventArgs e)
+        {
+        }
+        private void PantallaDeResultado_TextChanged(object sender, EventArgs e)
+        {
         }
     }
 }

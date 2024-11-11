@@ -35,8 +35,8 @@
             boton7 = new Button();
             botonNumero8 = new Button();
             botonNumero9 = new Button();
-            button16 = new Button();
-            button17 = new Button();
+            BotonParaPromedio = new Button();
+            BotonAñadirAMemoria = new Button();
             BotonIgual = new Button();
             botonNumero6 = new Button();
             botonNumero5 = new Button();
@@ -123,23 +123,25 @@
             botonNumero9.UseVisualStyleBackColor = true;
             botonNumero9.Click += botonNumero_Click;
             // 
-            // button16
+            // BotonParaPromedio
             // 
-            button16.Location = new Point(278, 163);
-            button16.Name = "button16";
-            button16.Size = new Size(67, 49);
-            button16.TabIndex = 17;
-            button16.Text = "Avg";
-            button16.UseVisualStyleBackColor = true;
+            BotonParaPromedio.Location = new Point(278, 163);
+            BotonParaPromedio.Name = "BotonParaPromedio";
+            BotonParaPromedio.Size = new Size(67, 49);
+            BotonParaPromedio.TabIndex = 17;
+            BotonParaPromedio.Text = "Avg";
+            BotonParaPromedio.UseVisualStyleBackColor = true;
+            BotonParaPromedio.Click += botonPromedio;
             // 
-            // button17
+            // BotonAñadirAMemoria
             // 
-            button17.Location = new Point(278, 218);
-            button17.Name = "button17";
-            button17.Size = new Size(67, 49);
-            button17.TabIndex = 18;
-            button17.Text = "M+";
-            button17.UseVisualStyleBackColor = true;
+            BotonAñadirAMemoria.Location = new Point(278, 218);
+            BotonAñadirAMemoria.Name = "BotonAñadirAMemoria";
+            BotonAñadirAMemoria.Size = new Size(67, 49);
+            BotonAñadirAMemoria.TabIndex = 18;
+            BotonAñadirAMemoria.Text = "M+";
+            BotonAñadirAMemoria.UseVisualStyleBackColor = true;
+            BotonAñadirAMemoria.Click += AñadirAMemoria_Click;
             // 
             // BotonIgual
             // 
@@ -313,8 +315,8 @@
             Controls.Add(botonNumero5);
             Controls.Add(botonNumero4);
             Controls.Add(BotonIgual);
-            Controls.Add(button17);
-            Controls.Add(button16);
+            Controls.Add(BotonAñadirAMemoria);
+            Controls.Add(BotonParaPromedio);
             Controls.Add(botonNumero9);
             Controls.Add(botonNumero8);
             Controls.Add(boton7);
@@ -338,8 +340,8 @@
         private Button boton7;
         private Button botonNumero8;
         private Button botonNumero9;
-        private Button button16;
-        private Button button17;
+        private Button BotonParaPromedio;
+        private Button BotonAñadirAMemoria;
         private Button BotonIgual;
         private Button botonNumero6;
         private Button botonNumero5;
