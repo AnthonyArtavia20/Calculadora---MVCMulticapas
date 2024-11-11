@@ -14,14 +14,14 @@
             while (!File.Exists(Path.Combine(solutionDirectory, "CalculadoraMVCMulticapas.csproj")) &&
                    Directory.GetParent(solutionDirectory) != null)
             {
-                solutionDirectory = Directory.GetParent(solutionDirectory).FullName;
+                solutionDirectory = Directory.GetParent(solutionDirectory)!.FullName;
             }
 
             // Combinar con la carpeta Data
             _path = Path.Combine(solutionDirectory, "Data", "Bitácora.txt");
 
             // Verificar si el directorio existe, si no, crearlo
-            string directory = Path.GetDirectoryName(_path);
+            string directory = Path.GetDirectoryName(_path)!;
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
@@ -57,14 +57,15 @@
                 throw new Exception($"Error al escribir en la bitácora: {ex.Message}");
             }
         }
-
-        public string LeerBitacora()
+        public List<string> ObtenerRegistros() //Sirve para actualizar el panel de la bitácora.
         {
-            return File.Exists(_path) ? File.ReadAllText(_path) : "No hay registros...";
+            return File.Exists(_path)
+                ? File.ReadAllLines(_path).ToList()
+                : new List<string> { "No hay registros..." };
         }
 
         public void GuardarOperacionBasica(double operador1, string operacion, double operador2, double resultado)
-        {
+        { //Para +,-,*,/
             string registro = $"{operador1} {operacion} {operador2} = {resultado}";
             GuardarOperacion(registro);
         }

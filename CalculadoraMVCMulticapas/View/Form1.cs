@@ -94,6 +94,11 @@ namespace CalculadoraMVCMulticapas
             int Resultado = Convert.ToInt32(PantallaDeResultado.Text);
             calculadoraController.ConvertirYGuardarBinario(Resultado);
         }
+        private void botonPromedio(object sender, EventArgs e)
+        {
+            double PromedioAMostrar = calculadoraController.SacarPromedioYMostrarlo();
+            PantallaDeResultado.Text = PromedioAMostrar.ToString();
+        }
 
         private void botonNumero_Click(object sender, EventArgs e) //Para no tener que hacer un método por botón, en FormsDisigner en los botones se llama este método.
         {
@@ -104,14 +109,9 @@ namespace CalculadoraMVCMulticapas
                 PantallaDeResultado.Text = ""; // Limpia la pantalla si es una nueva operación
                 PantallaListaParaNuevoNumero = false;
             }
-
             PantallaDeResultado.Text += boton.Text; // Agrega el número presionado a la pantalla
         }
 
-        private void PantallaDeResultado_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         public void ActualizarPantalla(string texto) //Método simple para que el controlador pueda actualizar la interfaz.
         {
@@ -200,6 +200,54 @@ namespace CalculadoraMVCMulticapas
             PantallaDeResultado.Text += numero;
         }
 
+        private void ActualizarPanelBitacora()
+        {
+            try
+            {
+                PanelDeBitácora.Controls.Clear();
+                List<string> registros = calculadoraController.ObtenerRegistrosBitacora();
+                int yPosition = 10;
+                foreach (string registro in registros)
+                {
+                    Label label = new Label
+                    {
+                        Text = registro,
+                        AutoSize = true,
+                        Location = new Point(10, yPosition)
+                    };
+                    PanelDeBitácora.Controls.Add(label);
+                    yPosition += 25;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al actualizar la bitácora: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // Alternar la visibilidad del panel
+            PanelDeBitácora.Visible = !PanelDeBitácora.Visible;
+
+            if (PanelDeBitácora.Visible)
+            {
+                ActualizarPanelBitacora();
+            }
+        }
+
+        private void AñadirAMemoria_Click(object sender, EventArgs e)
+        {
+            //Se podría acceder directamente a Data, pero incumple los principios de MVC y la separación de responsabilidades.
+            double numero = Convert.ToDouble(PantallaDeResultado.Text);
+            calculadoraController.GuardarEnMemoria(numero);
+        }
+
+        private void BitacoraPanel(object sender, PaintEventArgs e)
+        {
+        }
+        private void PantallaDeResultado_TextChanged(object sender, EventArgs e)
+        {
+        }
     }
 }

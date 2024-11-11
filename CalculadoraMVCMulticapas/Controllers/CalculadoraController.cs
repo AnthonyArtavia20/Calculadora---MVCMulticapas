@@ -10,7 +10,7 @@ namespace CalculadoraMVCMulticapas.Controllers
         private CalculadoraModelClass calculadoraModel = new CalculadoraModelClass();
         private BitacoraRepository Bitacora = new BitacoraRepository();
         private Form1 _form1;
-
+        public static List<double> ListaParaPromedio { get; private set; } = new List<double>();
 
         public CalculadoraControllerClass(Form1 form1)
         {
@@ -52,6 +52,7 @@ namespace CalculadoraMVCMulticapas.Controllers
                 }
                 // Guardar operación básica
                 Bitacora.GuardarOperacionBasica(_Model.Operador1, _form1.operacionActual, _Model.Operador2, _Model.resultado);
+                ListaParaPromedio.Add(_Model.resultado);
 
                 // Actualizamos la pantalla y el operador 1
                 _form1.ActualizarPantalla(_Model.resultado.ToString());
@@ -80,6 +81,22 @@ namespace CalculadoraMVCMulticapas.Controllers
             Bitacora.GuardarOperacionBinario(numero, binario);
         }
 
+        public double SacarPromedioYMostrarlo()
+        {
+            if (ListaParaPromedio.Count == 0)
+                return 0; // Evitar división por cero.
+
+            double sumaDeLosResultados = ListaParaPromedio.Sum();
+            double promedio = sumaDeLosResultados / ListaParaPromedio.Count;
+
+            // Convertir los números de la lista a un string separado por espacios.
+            string numerosMemoria = string.Join(" ", ListaParaPromedio);
+
+            // Guardar en la bitácora utilizando la instancia actual de la bitácora.
+            Bitacora.GuardarOperacionPromedio(numerosMemoria, promedio);
+
+            return promedio;
+        }
 
         //Se crea un método espécifico para reforzar la separación de identidades
         //logrando comunicar Form1 con Controllers.
@@ -89,5 +106,17 @@ namespace CalculadoraMVCMulticapas.Controllers
             _Model.Operador2 = 0;
             _form1.ActualizarPantalla("0"); //La vista se actualiza a través del controlador.
         }
+
+        public List<string> ObtenerRegistrosBitacora()
+        {
+            return Bitacora.ObtenerRegistros();
+        }
+
+        public void GuardarEnMemoria(double numero)
+        {
+            //Guardar en la bitácora.
+            Bitacora.GuardarOperacionMemoria(numero.ToString());
+        }
+
     }
 }

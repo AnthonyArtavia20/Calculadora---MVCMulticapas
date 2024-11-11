@@ -1,12 +1,11 @@
 namespace CalculadoraMVCMulticapas.Models
 {
     //Lógica principal del programa, es decir, la lógica de negocios.
-
     public class CalculadoraModelClass
     {
-        public double Operador1 = 0;
+        public double Operador1 = 0; //Se inicializan en 0
         public double Operador2 = 0;
-        public double resultado { get; private set; }
+        public double resultado { get; private set; } //En privado para que no sea posible modificarlo desde fuera.
 
         public double Sumar() => resultado = Operador1 + Operador2;
         public double Restar() => resultado = Operador1 - Operador2;
@@ -34,7 +33,6 @@ namespace CalculadoraMVCMulticapas.Models
             }
             return true;
         }
-
         public string ConvertirABinario(int Numero) => Convert.ToString(Numero, 2); //Permite hacer conversiones entre bases, en este caso base 2, osea, binario.
     }
 }
