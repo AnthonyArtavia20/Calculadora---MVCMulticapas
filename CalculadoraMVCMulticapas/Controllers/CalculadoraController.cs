@@ -1,91 +1,82 @@
 using CalculadoraMVCMulticapas.Data;
 using CalculadoraMVCMulticapas.Models;
+using CalculadoraMVCMulticapas.Services;
+using CalculadoraMVCMulticapas.DTOs;
+using CalculadoraMVCMulticapas.interfaces;
 
 namespace CalculadoraMVCMulticapas.Controllers
 {
     public class CalculadoraControllerClass
     {
-        private readonly CalculadoraModelClass _Model;
-        private CalculadoraModelClass calculadoraModel = new CalculadoraModelClass();
-        private BitacoraRepository Bitacora = new BitacoraRepository();
-        private Form1 _form1;
+        private readonly ICalculadora _calculadoraService;
+        private readonly BitacoraRepository _bitacora;
+        private readonly Form1 _view;
         public static List<double> ListaParaPromedio { get; private set; } = new List<double>();
 
-        public CalculadoraControllerClass(Form1 form1)
+        public CalculadoraControllerClass(Form1 view, ICalculadora calculadoraService, BitacoraRepository bitacora)
         {
-            _Model = new CalculadoraModelClass(); //Creamos una instancia de la clase del modelo, para poder ejecutar las operaciones de ese objeto en cuestion
-            _form1 = form1; //Se guarda la referencia de la parte grafica para poder acceder a las variables.
+            _view = view;
+            _calculadoraService = calculadoraService;
+            _bitacora = bitacora;
         }
 
         public void ProcesarOperacionPendiente()
         {
-            double numeroActual = Convert.ToDouble(_form1.PantallaDeResultado.Text);
+            double numeroActual = Convert.ToDouble(_view.PantallaDeResultado.Text);
 
-            if (string.IsNullOrEmpty(_form1.operacionActual))
+            if (string.IsNullOrEmpty(_view.operacionActual))
             {
-                // Si no hay operación previa, simplemente mostramos el número actual
-                _Model.resultado = numeroActual;
-                _Model.Operador1 = numeroActual;
-                _form1.ActualizarPantalla(numeroActual.ToString());
-                
-                // Solo guardar en bitácora si se presionó el botón igual
-                if (_form1.sePresionoIgual)
+                _view.ActualizarPantalla(numeroActual.ToString());
+                if (_view.sePresionoIgual)
                 {
-                    Bitacora.GuardarOperacionIgual(numeroActual);
+                    _bitacora.GuardarOperacionIgual(numeroActual);
                 }
                 return;
-                
             }
 
-            _Model.Operador2 = numeroActual;
-
-            switch (_form1.operacionActual)
+            var operacionDTO = new OperacionDTO
             {
-                case "+":
-                    _Model.Sumar();
-                    break;
-                case "-":
-                    _Model.Restar();
-                    break;
-                case "*":
-                    _Model.Multiplicar();
-                    break;
-                case "/":
-                    try
-                    {
-                        _Model.Dividir();
-                    }
-                    catch (DivideByZeroException ex)
-                    {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        _form1.PantallaDeResultado.Text = "0";
-                        return;
-                    }
-                    break;
-            }
-            // Guardar operacion basica
-            Bitacora.GuardarOperacionBasica(_Model.Operador1, _form1.operacionActual, _Model.Operador2, _Model.resultado);
-            ListaParaPromedio.Add(_Model.resultado);
+                Operador1 = _calculadoraService.Operador1,
+                Operador2 = Convert.ToDouble(_view.PantallaDeResultado.Text),
+                Operacion = _view.operacionActual
+            };
 
-            // Actualizamos la pantalla y el operador 1
-            _form1.ActualizarPantalla(_Model.resultado.ToString());
-            _Model.Operador1 = _Model.resultado;
-            _form1.operacionActual = ""; // Limpiar operacion actual despues de ejecutarla
+            try
+            {
+                operacionDTO.Resultado = _view.operacionActual switch
+                {
+                    "+" => _calculadoraService.Sumar(operacionDTO.Operador1, operacionDTO.Operador2),
+                    "-" => _calculadoraService.Restar(operacionDTO.Operador1, operacionDTO.Operador2),
+                    "*" => _calculadoraService.Multiplicar(operacionDTO.Operador1, operacionDTO.Operador2),
+                    "/" => _calculadoraService.Dividir(operacionDTO.Operador1, operacionDTO.Operador2),
+                    _ => throw new InvalidOperationException("Operación no válida")
+                };
+
+                _bitacora.GuardarOperacionBasica(operacionDTO.Operador1, operacionDTO.Operacion, 
+                                               operacionDTO.Operador2, operacionDTO.Resultado);
+                ListaParaPromedio.Add(operacionDTO.Resultado);
+                _view.ActualizarPantalla(operacionDTO.Resultado.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _view.ActualizarPantalla("0");
+            }
         }
 
         public void VerificarYGuardarPrimo(int numero)
         {
             bool esPrimo = CalculadoraModelClass.EsPrimoONo(numero);
             string resultado = esPrimo ? "true" : "false"; // Formateo consistente
-            _form1.ActualizarPantalla($"Primo: {resultado}");
-            Bitacora.GuardarOperacionPrimo(numero, esPrimo);
+            _view.ActualizarPantalla($"Primo: {resultado}");
+            _bitacora.GuardarOperacionPrimo(numero, esPrimo);
         }
 
         public void ConvertirYGuardarBinario(int numero)
         {
-            string binario = _Model.ConvertirABinario(numero);
-            _form1.ActualizarPantalla($"Binario: {binario}");
-            Bitacora.GuardarOperacionBinario(numero, binario);
+            string binario = _calculadoraService.ConvertirABinario(numero);
+            _view.ActualizarPantalla($"Binario: {binario}");
+            _bitacora.GuardarOperacionBinario(numero, binario);
         }
 
         public double SacarPromedioYMostrarlo()
@@ -100,7 +91,7 @@ namespace CalculadoraMVCMulticapas.Controllers
             string numerosMemoria = string.Join(" ", ListaParaPromedio);
 
             // Guardar en la bitacora utilizando la instancia actual de la bitacora.
-            Bitacora.GuardarOperacionPromedio(numerosMemoria, promedio);
+            _bitacora.GuardarOperacionPromedio(numerosMemoria, promedio);
 
             return promedio;
         }
@@ -109,20 +100,20 @@ namespace CalculadoraMVCMulticapas.Controllers
         //logrando comunicar Form1 con Controllers.
         public void ReiniciarCalcu()
         {
-            _Model.Operador1 = 0;
-            _Model.Operador2 = 0;
-            _form1.ActualizarPantalla("0"); //La vista se actualiza a traves del controlador.
+            _calculadoraService.Operador1 = 0;
+            _calculadoraService.Operador2 = 0;
+            _view.ActualizarPantalla("0"); //La vista se actualiza a traves del controlador.
         }
 
         public List<string> ObtenerRegistrosBitacora()
         {
-            return Bitacora.ObtenerRegistros();
+            return _bitacora.ObtenerRegistros();
         }
 
         public void GuardarEnMemoria(double numero)
         {
             //Guardar en la bitacora.
-            Bitacora.GuardarOperacionMemoria(numero.ToString());
+            _bitacora.GuardarOperacionMemoria(numero.ToString());
         }
     }
 }

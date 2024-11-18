@@ -1,11 +1,16 @@
 using CalculadoraMVCMulticapas.Controllers;
+using CalculadoraMVCMulticapas.Services;
+using CalculadoraMVCMulticapas.Models;
+using CalculadoraMVCMulticapas.Data;
+using CalculadoraMVCMulticapas.interfaces;
 
 namespace CalculadoraMVCMulticapas
 {
     public partial class Form1 : Form
     {
+        private readonly CalculadoraControllerClass calculadoraController;
+        private readonly ICalculadora _calculadoraService;
 
-        private CalculadoraControllerClass calculadoraController;
         /// <summary>
         /// /*
         ///     -> PantallaListaParaNuevoNumero:
@@ -27,17 +32,20 @@ namespace CalculadoraMVCMulticapas
         public Form1()
         {
             InitializeComponent();
-            this.AcceptButton = null; //Deshabilita el comportamiento del Enter de contornear en azul un boton, evitando asi poder hacer enter a la operacion deseada.
-            calculadoraController = new CalculadoraControllerClass(this); //Pasar la instancia al forms
-            this.KeyPreview = true; //Permite que el forms capture eventos de teclado
-            this.KeyDown += new KeyEventHandler(Form1_KeyDown); //Asocia el evento KeyDown al controlador de eventos.
+            var model = new CalculadoraModelClass();
+            var bitacora = new BitacoraRepository();
+            _calculadoraService = new CalculadoraService(model, bitacora);
+            calculadoraController = new CalculadoraControllerClass(this, _calculadoraService, bitacora);
             
-            // Add this to disable focus rectangles
+            this.KeyPreview = true;
+            this.KeyDown += Form1_KeyDown;
+            this.AcceptButton = null;
+            
             foreach (Control control in this.Controls)
             {
-                if (control is Button)
+                if (control is Button button)
                 {
-                    ((Button)control).TabStop = false;
+                    button.TabStop = false;
                 }
             }
         }
@@ -54,13 +62,15 @@ namespace CalculadoraMVCMulticapas
         }
         private void buttonSuma_Click(object sender, EventArgs e)
         {
+            _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
-            operacionActual = "+"; // Guardamos la operacion actual
-            PantallaListaParaNuevoNumero = true; // Indicamos que se puede empezar una nueva entrada
+            operacionActual = "+";
+            PantallaListaParaNuevoNumero = true;
         }
 
         private void botonResta_Click(object sender, EventArgs e)
         {
+            _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "-";
             PantallaListaParaNuevoNumero = true;
@@ -68,6 +78,7 @@ namespace CalculadoraMVCMulticapas
 
         private void BotonMulti_Click(object sender, EventArgs e)
         {
+            _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "*";
             PantallaListaParaNuevoNumero = true;
@@ -75,6 +86,7 @@ namespace CalculadoraMVCMulticapas
 
         private void buttonDividir_Click(object sender, EventArgs e)
         {
+            _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "/";
             PantallaListaParaNuevoNumero = true;
@@ -143,24 +155,28 @@ namespace CalculadoraMVCMulticapas
             }
             else if (e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus)
             {
+                _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
                 calculadoraController.ProcesarOperacionPendiente();
                 operacionActual = "+";
                 PantallaListaParaNuevoNumero = true;
             }
             else if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus)
             {
+                _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
                 calculadoraController.ProcesarOperacionPendiente();
                 operacionActual = "-";
                 PantallaListaParaNuevoNumero = true;
             }
             else if (e.KeyCode == Keys.Multiply)
             {
+                _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
                 calculadoraController.ProcesarOperacionPendiente();
                 operacionActual = "*";
                 PantallaListaParaNuevoNumero = true;
             }
             else if (e.KeyCode == Keys.Divide || e.KeyCode == Keys.OemQuestion)
             {
+                _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
                 calculadoraController.ProcesarOperacionPendiente();
                 operacionActual = "/";
                 PantallaListaParaNuevoNumero = true;
