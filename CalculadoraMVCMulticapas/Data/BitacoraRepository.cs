@@ -93,5 +93,11 @@
             string registro = $"Avg {numerosMemoria} = {promedio}";
             GuardarOperacion(registro);
         }
+
+        public void GuardarOperacionIgual(double numero)
+        {
+            string registro = $"{numero} = {numero}";
+            GuardarOperacion(registro);
+        }
     }
 }

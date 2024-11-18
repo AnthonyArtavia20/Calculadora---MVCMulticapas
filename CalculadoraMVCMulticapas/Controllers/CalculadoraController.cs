@@ -27,7 +27,14 @@ namespace CalculadoraMVCMulticapas.Controllers
                 _Model.resultado = numeroActual;
                 _Model.Operador1 = numeroActual;
                 _form1.ActualizarPantalla(numeroActual.ToString());
+                
+                // Solo guardar en bitácora si se presionó el botón igual
+                if (_form1.sePresionoIgual)
+                {
+                    Bitacora.GuardarOperacionIgual(numeroActual);
+                }
                 return;
+                
             }
 
             _Model.Operador2 = numeroActual;

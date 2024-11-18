@@ -46,6 +46,8 @@ namespace CalculadoraMVCMulticapas
         private bool PantallaListaParaNuevoNumero = true; //En caso de una nueva operacion limpiar la pantalla.
         private bool ReiniciarCalculadora = true; //En caso de que se este realizando una nueva operacion
 
+        public bool sePresionoIgual { get; set; }
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -89,9 +91,11 @@ namespace CalculadoraMVCMulticapas
 
         private void BotonIgual_Click(object sender, EventArgs e)
         {
+            sePresionoIgual = true;
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = ""; // Limpiamos la operacion actual
             PantallaListaParaNuevoNumero = true;
+            sePresionoIgual = false;
         }
         private void EsprimoONo(object sender, EventArgs e)
         {
@@ -175,10 +179,12 @@ namespace CalculadoraMVCMulticapas
             }
             else if (e.KeyCode == Keys.Enter)
             {
-                calculadoraController.ProcesarOperacionPendiente(); // Procesar la operacion igual.
-                operacionActual = ""; // Limpiar la operacion actual.
-                PantallaListaParaNuevoNumero = true; // Preparar la pantalla para un nuevo numero.
-                e.Handled = true; // Prevenir que el evento se propague al boton enfocado.
+                sePresionoIgual = true;
+                calculadoraController.ProcesarOperacionPendiente();
+                operacionActual = "";
+                PantallaListaParaNuevoNumero = true;
+                sePresionoIgual = false;
+                e.Handled = true;
             }
             else if (e.KeyCode == Keys.Escape || e.KeyCode == Keys.C)
             {
