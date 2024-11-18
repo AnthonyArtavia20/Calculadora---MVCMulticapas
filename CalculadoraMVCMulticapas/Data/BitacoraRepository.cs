@@ -65,8 +65,8 @@
         }
 
         public void GuardarOperacionBasica(double operador1, string operacion, double operador2, double resultado)
-        { //Para +,-,*,/
-            string registro = $"{operador1} {operacion} {operador2} = {resultado}";
+        {
+            string registro = $"{operador1.ToString("0.#")} {operacion} {operador2.ToString("0.#")} = {resultado.ToString("0.#")}";
             GuardarOperacion(registro);
         }
 

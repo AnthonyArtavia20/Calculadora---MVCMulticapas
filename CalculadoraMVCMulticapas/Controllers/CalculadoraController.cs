@@ -17,52 +17,53 @@ namespace CalculadoraMVCMulticapas.Controllers
             _form1 = form1; //Se guarda la referencia de la parte grafica para poder acceder a las variables.
         }
 
-        public void ProcesarOperacionPendiente() //Se usa en caso de que anteriormente hubiera una operacion realizada anteriormente y su resultado este guardado en Operador1
+        public void ProcesarOperacionPendiente()
         {
             double numeroActual = Convert.ToDouble(_form1.PantallaDeResultado.Text);
 
-            if (!string.IsNullOrEmpty(_form1.operacionActual))
+            if (string.IsNullOrEmpty(_form1.operacionActual))
             {
-                _Model.Operador2 = numeroActual;
-
-                switch (_form1.operacionActual)
-                {
-                    case "+":
-                        _Model.Sumar();
-                        break;
-                    case "-":
-                        _Model.Restar();
-                        break;
-                    case "*":
-                        _Model.Multiplicar();
-                        break;
-                    case "/":
-                        try
-                        {
-                            _Model.Dividir();
-                        }
-                        catch (DivideByZeroException ex)
-                        {
-                            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            _form1.PantallaDeResultado.Text = "0";
-                            return;
-                        }
-                        break;
-                }
-                // Guardar operacion basica
-                Bitacora.GuardarOperacionBasica(_Model.Operador1, _form1.operacionActual, _Model.Operador2, _Model.resultado);
-                ListaParaPromedio.Add(_Model.resultado);
-
-                // Actualizamos la pantalla y el operador 1
-                _form1.ActualizarPantalla(_Model.resultado.ToString());
-                _Model.Operador1 = _Model.resultado;
-                _form1.operacionActual = ""; // Limpiar operacion actual despues de ejecutarla
-            }
-            else
-            {
-                // Si no hay operacion previa, simplemente guardamos el numero actual como Operador1
+                // Si no hay operación previa, simplemente mostramos el número actual
+                _Model.resultado = numeroActual;
                 _Model.Operador1 = numeroActual;
+                _form1.ActualizarPantalla(numeroActual.ToString());
+                return;
             }
+
+            _Model.Operador2 = numeroActual;
+
+            switch (_form1.operacionActual)
+            {
+                case "+":
+                    _Model.Sumar();
+                    break;
+                case "-":
+                    _Model.Restar();
+                    break;
+                case "*":
+                    _Model.Multiplicar();
+                    break;
+                case "/":
+                    try
+                    {
+                        _Model.Dividir();
+                    }
+                    catch (DivideByZeroException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        _form1.PantallaDeResultado.Text = "0";
+                        return;
+                    }
+                    break;
+            }
+            // Guardar operacion basica
+            Bitacora.GuardarOperacionBasica(_Model.Operador1, _form1.operacionActual, _Model.Operador2, _Model.resultado);
+            ListaParaPromedio.Add(_Model.resultado);
+
+            // Actualizamos la pantalla y el operador 1
+            _form1.ActualizarPantalla(_Model.resultado.ToString());
+            _Model.Operador1 = _Model.resultado;
+            _form1.operacionActual = ""; // Limpiar operacion actual despues de ejecutarla
         }
 
         public void VerificarYGuardarPrimo(int numero)

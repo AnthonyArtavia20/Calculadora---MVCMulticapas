@@ -5,7 +5,7 @@ namespace CalculadoraMVCMulticapas.Models
     {
         public double Operador1 = 0; //Se inicializan en 0
         public double Operador2 = 0;
-        public double resultado { get; private set; } //En privado para que no sea posible modificarlo desde fuera.
+        public double resultado { get; set; } //Make both getter and setter public
 
         public double Sumar() => resultado = Operador1 + Operador2;
         public double Restar() => resultado = Operador1 - Operador2;

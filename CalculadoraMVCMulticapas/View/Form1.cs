@@ -31,6 +31,15 @@ namespace CalculadoraMVCMulticapas
             calculadoraController = new CalculadoraControllerClass(this); //Pasar la instancia al forms
             this.KeyPreview = true; //Permite que el forms capture eventos de teclado
             this.KeyDown += new KeyEventHandler(Form1_KeyDown); //Asocia el evento KeyDown al controlador de eventos.
+            
+            // Add this to disable focus rectangles
+            foreach (Control control in this.Controls)
+            {
+                if (control is Button)
+                {
+                    ((Button)control).TabStop = false;
+                }
+            }
         }
 
         public string operacionActual = ""; // Operacion seleccionada
@@ -184,19 +193,27 @@ namespace CalculadoraMVCMulticapas
         {
             if (PantallaListaParaNuevoNumero)
             {
-                PantallaDeResultado.Text = ""; // Limpia la pantalla si es una nueva operacion
+                PantallaDeResultado.Text = "";
                 PantallaListaParaNuevoNumero = false;
             }
 
-            // Validar punto decimal
+            // Si es decimal, verificar que no exista ya un punto
             if (numero == "." && PantallaDeResultado.Text.Contains("."))
-                return; // No permitir mas de un punto decimal
+                return;
 
-            // Validar ceros iniciales
+            // Si es el primer carácter y es un punto, agregar 0 antes
+            if (PantallaDeResultado.Text.Length == 0 && numero == ".")
+            {
+                PantallaDeResultado.Text = "0";
+            }
+
+            // Si hay solo un 0 y no es punto decimal, reemplazar el 0
             if (PantallaDeResultado.Text == "0" && numero != ".")
-                PantallaDeResultado.Text = ""; // Reemplazar el "0" inicial si no es un decimal
+            {
+                PantallaDeResultado.Text = numero;
+                return;
+            }
 
-            // Concatenar numero
             PantallaDeResultado.Text += numero;
         }
 
