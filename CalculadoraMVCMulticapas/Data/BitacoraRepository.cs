@@ -18,7 +18,7 @@
             }
 
             // Combinar con la carpeta Data
-            _path = Path.Combine(solutionDirectory, "Data", "Bitácora.txt");
+            _path = Path.Combine(solutionDirectory, "Data", "Bitacora.txt");
 
             // Verificar si el directorio existe, si no, crearlo
             string directory = Path.GetDirectoryName(_path)!;
@@ -54,10 +54,10 @@
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error al escribir en la bitácora: {ex.Message}");
+                throw new Exception($"Error al escribir en la bitacora: {ex.Message}");
             }
         }
-        public List<string> ObtenerRegistros() //Sirve para actualizar el panel de la bitácora.
+        public List<string> ObtenerRegistros() //Sirve para actualizar el panel de la bitacora.
         {
             return File.Exists(_path)
                 ? File.ReadAllLines(_path).ToList()

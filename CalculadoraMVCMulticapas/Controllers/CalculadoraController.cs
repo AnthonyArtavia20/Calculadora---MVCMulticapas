@@ -1,7 +1,6 @@
 using CalculadoraMVCMulticapas.Data;
 using CalculadoraMVCMulticapas.Models;
 
-
 namespace CalculadoraMVCMulticapas.Controllers
 {
     public class CalculadoraControllerClass
@@ -15,10 +14,10 @@ namespace CalculadoraMVCMulticapas.Controllers
         public CalculadoraControllerClass(Form1 form1)
         {
             _Model = new CalculadoraModelClass(); //Creamos una instancia de la clase del modelo, para poder ejecutar las operaciones de ese objeto en cuestion
-            _form1 = form1; //Se guarda la referencia de la parte gráfica para poder acceder a las variables.
+            _form1 = form1; //Se guarda la referencia de la parte grafica para poder acceder a las variables.
         }
 
-        public void ProcesarOperacionPendiente() //Se usa en caso de que anteriormente hubiera una operación realizada anteriormente y su resultado esté guardado en Operador1
+        public void ProcesarOperacionPendiente() //Se usa en caso de que anteriormente hubiera una operacion realizada anteriormente y su resultado este guardado en Operador1
         {
             double numeroActual = Convert.ToDouble(_form1.PantallaDeResultado.Text);
 
@@ -50,18 +49,18 @@ namespace CalculadoraMVCMulticapas.Controllers
                         }
                         break;
                 }
-                // Guardar operación básica
+                // Guardar operacion basica
                 Bitacora.GuardarOperacionBasica(_Model.Operador1, _form1.operacionActual, _Model.Operador2, _Model.resultado);
                 ListaParaPromedio.Add(_Model.resultado);
 
                 // Actualizamos la pantalla y el operador 1
                 _form1.ActualizarPantalla(_Model.resultado.ToString());
                 _Model.Operador1 = _Model.resultado;
-                _form1.operacionActual = ""; // Limpiar operación actual después de ejecutarla
+                _form1.operacionActual = ""; // Limpiar operacion actual despues de ejecutarla
             }
             else
             {
-                // Si no hay operación previa, simplemente guardamos el número actual como Operador1
+                // Si no hay operacion previa, simplemente guardamos el numero actual como Operador1
                 _Model.Operador1 = numeroActual;
             }
         }
@@ -84,27 +83,27 @@ namespace CalculadoraMVCMulticapas.Controllers
         public double SacarPromedioYMostrarlo()
         {
             if (ListaParaPromedio.Count == 0)
-                return 0; // Evitar división por cero.
+                return 0; // Evitar division por cero.
 
             double sumaDeLosResultados = ListaParaPromedio.Sum();
             double promedio = sumaDeLosResultados / ListaParaPromedio.Count;
 
-            // Convertir los números de la lista a un string separado por espacios.
+            // Convertir los numeros de la lista a un string separado por espacios.
             string numerosMemoria = string.Join(" ", ListaParaPromedio);
 
-            // Guardar en la bitácora utilizando la instancia actual de la bitácora.
+            // Guardar en la bitacora utilizando la instancia actual de la bitacora.
             Bitacora.GuardarOperacionPromedio(numerosMemoria, promedio);
 
             return promedio;
         }
 
-        //Se crea un método espécifico para reforzar la separación de identidades
+        //Se crea un metodo especifico para reforzar la separacion de identidades
         //logrando comunicar Form1 con Controllers.
         public void ReiniciarCalcu()
         {
             _Model.Operador1 = 0;
             _Model.Operador2 = 0;
-            _form1.ActualizarPantalla("0"); //La vista se actualiza a través del controlador.
+            _form1.ActualizarPantalla("0"); //La vista se actualiza a traves del controlador.
         }
 
         public List<string> ObtenerRegistrosBitacora()
@@ -114,9 +113,8 @@ namespace CalculadoraMVCMulticapas.Controllers
 
         public void GuardarEnMemoria(double numero)
         {
-            //Guardar en la bitácora.
+            //Guardar en la bitacora.
             Bitacora.GuardarOperacionMemoria(numero.ToString());
         }
-
     }
 }

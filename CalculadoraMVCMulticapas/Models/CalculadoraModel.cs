@@ -1,6 +1,6 @@
 namespace CalculadoraMVCMulticapas.Models
 {
-    //Lógica principal del programa, es decir, la lógica de negocios.
+    //Logica principal del programa, es decir, la logica de negocios.
     public class CalculadoraModelClass
     {
         public double Operador1 = 0; //Se inicializan en 0
@@ -19,7 +19,7 @@ namespace CalculadoraMVCMulticapas.Models
             return resultado = Operador1 / Operador2;
         }
 
-        //Se hizo estática para poder acceder a los datos de la instancia
+        //Se hizo estatica para poder acceder a los datos de la instancia
         public static bool EsPrimoONo(int Numero)
         {
             if (Numero < 2)
