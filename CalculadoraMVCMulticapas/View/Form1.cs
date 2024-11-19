@@ -98,7 +98,7 @@ namespace CalculadoraMVCMulticapas
         }
         private void botonDecimal_Click(object sender, EventArgs e)
         {
-            PantallaDeResultado.Text = PantallaDeResultado.Text + ".";
+            PantallaDeResultado.Text = PantallaDeResultado.Text + ",";
         }
 
         private void BotonIgual_Click(object sender, EventArgs e)
@@ -129,7 +129,7 @@ namespace CalculadoraMVCMulticapas
                     return;
                 } else if (PantallaDeResultado.Text.Contains("Primo"))
                 {
-                    MessageBox.Show("Ya fue verficiado si es primo",
+                    MessageBox.Show("Ya fue verificado si es primo",
                     "Error de Conversión",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -247,7 +247,7 @@ namespace CalculadoraMVCMulticapas
             }
             else if (e.KeyCode == Keys.Decimal || e.KeyCode == Keys.OemPeriod)
             {
-                AgregarNumeroPantalla(".");
+                AgregarNumeroPantalla(",");
             }
             else if (e.KeyCode == Keys.Back)
             {
