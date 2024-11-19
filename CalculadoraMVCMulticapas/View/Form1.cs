@@ -98,7 +98,7 @@ namespace CalculadoraMVCMulticapas
         }
         private void botonDecimal_Click(object sender, EventArgs e)
         {
-            PantallaDeResultado.Text = PantallaDeResultado.Text + ".";
+            PantallaDeResultado.Text = PantallaDeResultado.Text + ",";
         }
 
         private void BotonIgual_Click(object sender, EventArgs e)
@@ -111,13 +111,77 @@ namespace CalculadoraMVCMulticapas
         }
         private void EsprimoONo(object sender, EventArgs e)
         {
-            int Resultado = Convert.ToInt32(PantallaDeResultado.Text);
-            calculadoraController.VerificarYGuardarPrimo(Resultado);
+            try
+            {
+                if (PantallaDeResultado.Text.Contains("Binario"))
+                {
+                    MessageBox.Show("No se puede convertir a primo desde binario",
+                                        "Error de Conversión",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                    return;
+                } else if (PantallaDeResultado.Text.Contains(",") || PantallaDeResultado.Text.Contains("."))
+                {
+                    MessageBox.Show("No se puede verificar primo si tiene decimales",
+                    "Error de Conversión",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                    return;
+                } else if (PantallaDeResultado.Text.Contains("Primo"))
+                {
+                    MessageBox.Show("Ya fue verificado si es primo",
+                    "Error de Conversión",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                    return;
+                }
+                int Resultado = Convert.ToInt32(PantallaDeResultado.Text);
+                calculadoraController.VerificarYGuardarPrimo(Resultado);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al verificar primo: {ex.Message}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+            }
         }
         private void MostrarEnBinario(object sender, EventArgs e)
         {
-            int Resultado = Convert.ToInt32(PantallaDeResultado.Text);
-            calculadoraController.ConvertirYGuardarBinario(Resultado);
+            try
+            {
+                if (PantallaDeResultado.Text.Contains(",") || PantallaDeResultado.Text.Contains("."))
+                {
+                    MessageBox.Show("No se puede convertir directamente un número con decimales a binario.",
+                    "Error de Conversión",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                    return;
+                } else if (PantallaDeResultado.Text.Contains("Primo"))
+                {
+                    MessageBox.Show("No se puede convertir a binario desde Primo",
+                                        "Error de Conversión",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                    return;
+                } else if (PantallaDeResultado.Text.Contains("Binario"))
+                {
+                    MessageBox.Show("Ya fue convertido a binario",
+                    "Error de Conversión",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                    return;
+                }
+                int Resultado = Convert.ToInt32(PantallaDeResultado.Text);
+                calculadoraController.ConvertirYGuardarBinario(Resultado);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al convertir a binario: {ex.Message}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+            }
         }
         private void botonPromedio(object sender, EventArgs e)
         {
@@ -183,7 +247,7 @@ namespace CalculadoraMVCMulticapas
             }
             else if (e.KeyCode == Keys.Decimal || e.KeyCode == Keys.OemPeriod)
             {
-                AgregarNumeroPantalla(".");
+                AgregarNumeroPantalla(",");
             }
             else if (e.KeyCode == Keys.Back)
             {

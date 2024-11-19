@@ -219,7 +219,7 @@
             botonDecimal.Name = "botonDecimal";
             botonDecimal.Size = new Size(53, 49);
             botonDecimal.TabIndex = 28;
-            botonDecimal.Text = ".";
+            botonDecimal.Text = ",";
             botonDecimal.UseVisualStyleBackColor = true;
             botonDecimal.Click += botonDecimal_Click;
             // 
