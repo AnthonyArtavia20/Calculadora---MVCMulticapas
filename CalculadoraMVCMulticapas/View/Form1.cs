@@ -1,41 +1,60 @@
 using CalculadoraMVCMulticapas.Controllers;
+using CalculadoraMVCMulticapas.Services;
+using CalculadoraMVCMulticapas.Models;
+using CalculadoraMVCMulticapas.Data;
+using CalculadoraMVCMulticapas.interfaces;
 
 namespace CalculadoraMVCMulticapas
 {
     public partial class Form1 : Form
     {
+        private readonly CalculadoraControllerClass calculadoraController;
+        private readonly ICalculadora _calculadoraService;
 
-        private CalculadoraControllerClass calculadoraController;
         /// <summary>
         /// /*
         ///     -> PantallaListaParaNuevoNumero:
         ///     Controla si la pantalla de la calculadora debe ser limpiada antes de escribir un nuevo 
-        ///     número. Esto ocurre después de que se haya seleccionado una operación (+, -, etc.) o 
-        ///     después de presionar el botón =.
-        ///             * Si está en true, se limpia la pantalla para que el usuario pueda escribir un 
-        ///                 nuevo número sin concatenar con el existente.
-        ///             *Cambia a false después de que el usuario comienza a ingresar un número, 
-        ///                 permitiendo concatenar números en lugar de limpiar repetidamente la pantalla.
+        ///     numero. Esto ocurre despues de que se haya seleccionado una operacion (+, -, etc.) o 
+        ///     despues de presionar el boton =.
+        ///             * Si esta en true, se limpia la pantalla para que el usuario pueda escribir un 
+        ///                 nuevo numero sin concatenar con el existente.
+        ///             *Cambia a false despues de que el usuario comienza a ingresar un numero, 
+        ///                 permitiendo concatenar numeros en lugar de limpiar repetidamente la pantalla.
         ///                 
         ///    -> ReiniciarCalculadora:
-        ///    Indica si se puede iniciar una nueva operación desde cero, como cuando se presiona el 
-        ///    botón C (limpiar). Su función principal es reiniciar el flujo de la calculadora.
+        ///    Indica si se puede iniciar una nueva operacion desde cero, como cuando se presiona el 
+        ///    boton C (limpiar). Su funcion principal es reiniciar el flujo de la calculadora.
         ///             * Se asegura de que los operadores (Operador1 y Operador2) y la pantalla se reinicien,
-        ///                 dejando la calculadora lista para un nuevo cálculo.
+        ///                 dejando la calculadora lista para un nuevo calculo.
         /// */ 
         /// </summary>
         public Form1()
         {
             InitializeComponent();
-            this.AcceptButton = null; //Deshabilita el comportamiento del Enter de contornear en azul un botón, evitando así poder hacer enter a la operación deseada.
-            calculadoraController = new CalculadoraControllerClass(this); //Pasar la instancia al forms
-            this.KeyPreview = true; //Permite que el forms capture eventos de teclado
-            this.KeyDown += new KeyEventHandler(Form1_KeyDown); //Asocia el evento KeyDown al controlador de eventos.
+            var model = new CalculadoraModelClass();
+            var bitacora = new BitacoraRepository();
+            _calculadoraService = new CalculadoraService(model, bitacora);
+            calculadoraController = new CalculadoraControllerClass(this, _calculadoraService, bitacora);
+            
+            this.KeyPreview = true;
+            this.KeyDown += Form1_KeyDown;
+            this.AcceptButton = null;
+            
+            foreach (Control control in this.Controls)
+            {
+                if (control is Button button)
+                {
+                    button.TabStop = false;
+                }
+            }
         }
 
-        public string operacionActual = ""; // Operación seleccionada
-        private bool PantallaListaParaNuevoNumero = true; //En caso de una nueva operación limpiar la pantalla.
-        private bool ReiniciarCalculadora = true; //En caso de que se esté realizando una nueva operación
+        public string operacionActual = ""; // Operacion seleccionada
+        private bool PantallaListaParaNuevoNumero = true; //En caso de una nueva operacion limpiar la pantalla.
+        private bool ReiniciarCalculadora = true; //En caso de que se este realizando una nueva operacion
+
+        public bool sePresionoIgual { get; set; }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -43,13 +62,15 @@ namespace CalculadoraMVCMulticapas
         }
         private void buttonSuma_Click(object sender, EventArgs e)
         {
+            _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
-            operacionActual = "+"; // Guardamos la operación actual
-            PantallaListaParaNuevoNumero = true; // Indicamos que se puede empezar una nueva entrada
+            operacionActual = "+";
+            PantallaListaParaNuevoNumero = true;
         }
 
         private void botonResta_Click(object sender, EventArgs e)
         {
+            _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "-";
             PantallaListaParaNuevoNumero = true;
@@ -57,6 +78,7 @@ namespace CalculadoraMVCMulticapas
 
         private void BotonMulti_Click(object sender, EventArgs e)
         {
+            _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "*";
             PantallaListaParaNuevoNumero = true;
@@ -64,6 +86,7 @@ namespace CalculadoraMVCMulticapas
 
         private void buttonDividir_Click(object sender, EventArgs e)
         {
+            _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "/";
             PantallaListaParaNuevoNumero = true;
@@ -71,7 +94,7 @@ namespace CalculadoraMVCMulticapas
         private void BotonLimpiar_Click(object sender, EventArgs e)
         {
             calculadoraController.ReiniciarCalcu();
-            ReiniciarCalculadora = true; //Reiniciar el estado de operación
+            ReiniciarCalculadora = true; //Reiniciar el estado de operacion
         }
         private void botonDecimal_Click(object sender, EventArgs e)
         {
@@ -80,9 +103,11 @@ namespace CalculadoraMVCMulticapas
 
         private void BotonIgual_Click(object sender, EventArgs e)
         {
+            sePresionoIgual = true;
             calculadoraController.ProcesarOperacionPendiente();
-            operacionActual = ""; // Limpiamos la operación actual
+            operacionActual = ""; // Limpiamos la operacion actual
             PantallaListaParaNuevoNumero = true;
+            sePresionoIgual = false;
         }
         private void EsprimoONo(object sender, EventArgs e)
         {
@@ -100,20 +125,20 @@ namespace CalculadoraMVCMulticapas
             PantallaDeResultado.Text = PromedioAMostrar.ToString();
         }
 
-        private void botonNumero_Click(object sender, EventArgs e) //Para no tener que hacer un método por botón, en FormsDisigner en los botones se llama este método.
+        private void botonNumero_Click(object sender, EventArgs e) //Para no tener que hacer un metodo por boton, en FormsDisigner en los botones se llama este metodo.
         {
             Button boton = (Button)sender;
 
             if (PantallaListaParaNuevoNumero)
             {
-                PantallaDeResultado.Text = ""; // Limpia la pantalla si es una nueva operación
+                PantallaDeResultado.Text = ""; // Limpia la pantalla si es una nueva operacion
                 PantallaListaParaNuevoNumero = false;
             }
-            PantallaDeResultado.Text += boton.Text; // Agrega el número presionado a la pantalla
+            PantallaDeResultado.Text += boton.Text; // Agrega el numero presionado a la pantalla
         }
 
 
-        public void ActualizarPantalla(string texto) //Método simple para que el controlador pueda actualizar la interfaz.
+        public void ActualizarPantalla(string texto) //Metodo simple para que el controlador pueda actualizar la interfaz.
         {
             PantallaDeResultado.Text = texto;
             PantallaListaParaNuevoNumero = true; //Todo listo para recibir otra entrada nueva.
@@ -121,33 +146,37 @@ namespace CalculadoraMVCMulticapas
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            // Detectar números (teclas del 0 al 9)
+            // Detectar numeros (teclas del 0 al 9)
             if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
             {
-                // Convertir la tecla presionada en un número.
+                // Convertir la tecla presionada en un numero.
                 string numero = (e.KeyCode - Keys.D0).ToString();
                 AgregarNumeroPantalla(numero);
             }
             else if (e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus)
             {
+                _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
                 calculadoraController.ProcesarOperacionPendiente();
                 operacionActual = "+";
                 PantallaListaParaNuevoNumero = true;
             }
             else if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus)
             {
+                _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
                 calculadoraController.ProcesarOperacionPendiente();
                 operacionActual = "-";
                 PantallaListaParaNuevoNumero = true;
             }
             else if (e.KeyCode == Keys.Multiply)
             {
+                _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
                 calculadoraController.ProcesarOperacionPendiente();
                 operacionActual = "*";
                 PantallaListaParaNuevoNumero = true;
             }
             else if (e.KeyCode == Keys.Divide || e.KeyCode == Keys.OemQuestion)
             {
+                _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
                 calculadoraController.ProcesarOperacionPendiente();
                 operacionActual = "/";
                 PantallaListaParaNuevoNumero = true;
@@ -158,7 +187,7 @@ namespace CalculadoraMVCMulticapas
             }
             else if (e.KeyCode == Keys.Back)
             {
-                // Retroceder un dígito
+                // Retroceder un digito
                 if (PantallaDeResultado.Text.Length > 0)
                 {
                     PantallaDeResultado.Text = PantallaDeResultado.Text.Substring(0, PantallaDeResultado.Text.Length - 1);
@@ -166,10 +195,12 @@ namespace CalculadoraMVCMulticapas
             }
             else if (e.KeyCode == Keys.Enter)
             {
-                calculadoraController.ProcesarOperacionPendiente(); // Procesar la operación igual.
-                operacionActual = ""; // Limpiar la operación actual.
-                PantallaListaParaNuevoNumero = true; // Preparar la pantalla para un nuevo número.
-                e.Handled = true; // Prevenir que el evento se propague al botón enfocado.
+                sePresionoIgual = true;
+                calculadoraController.ProcesarOperacionPendiente();
+                operacionActual = "";
+                PantallaListaParaNuevoNumero = true;
+                sePresionoIgual = false;
+                e.Handled = true;
             }
             else if (e.KeyCode == Keys.Escape || e.KeyCode == Keys.C)
             {
@@ -184,19 +215,27 @@ namespace CalculadoraMVCMulticapas
         {
             if (PantallaListaParaNuevoNumero)
             {
-                PantallaDeResultado.Text = ""; // Limpia la pantalla si es una nueva operación
+                PantallaDeResultado.Text = "";
                 PantallaListaParaNuevoNumero = false;
             }
 
-            // Validar punto decimal
+            // Si es decimal, verificar que no exista ya un punto
             if (numero == "." && PantallaDeResultado.Text.Contains("."))
-                return; // No permitir más de un punto decimal
+                return;
 
-            // Validar ceros iniciales
+            // Si es el primer carÃ¡cter y es un punto, agregar 0 antes
+            if (PantallaDeResultado.Text.Length == 0 && numero == ".")
+            {
+                PantallaDeResultado.Text = "0";
+            }
+
+            // Si hay solo un 0 y no es punto decimal, reemplazar el 0
             if (PantallaDeResultado.Text == "0" && numero != ".")
-                PantallaDeResultado.Text = ""; // Reemplazar el "0" inicial si no es un decimal
+            {
+                PantallaDeResultado.Text = numero;
+                return;
+            }
 
-            // Concatenar número
             PantallaDeResultado.Text += numero;
         }
 
@@ -204,7 +243,7 @@ namespace CalculadoraMVCMulticapas
         {
             try
             {
-                PanelDeBitácora.Controls.Clear();
+                PanelDeBitacora.Controls.Clear();
                 List<string> registros = calculadoraController.ObtenerRegistrosBitacora();
                 int yPosition = 10;
                 foreach (string registro in registros)
@@ -215,30 +254,30 @@ namespace CalculadoraMVCMulticapas
                         AutoSize = true,
                         Location = new Point(10, yPosition)
                     };
-                    PanelDeBitácora.Controls.Add(label);
+                    PanelDeBitacora.Controls.Add(label);
                     yPosition += 25;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al actualizar la bitácora: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al actualizar la bitacora: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             // Alternar la visibilidad del panel
-            PanelDeBitácora.Visible = !PanelDeBitácora.Visible;
+            PanelDeBitacora.Visible = !PanelDeBitacora.Visible;
 
-            if (PanelDeBitácora.Visible)
+            if (PanelDeBitacora.Visible)
             {
                 ActualizarPanelBitacora();
             }
         }
 
-        private void AñadirAMemoria_Click(object sender, EventArgs e)
+        private void AnadirAMemoria_Click(object sender, EventArgs e)
         {
-            //Se podría acceder directamente a Data, pero incumple los principios de MVC y la separación de responsabilidades.
+            //Se podria acceder directamente a Data, pero incumple los principios de MVC y la separacion de responsabilidades.
             double numero = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.GuardarEnMemoria(numero);
         }

@@ -36,7 +36,7 @@
             botonNumero8 = new Button();
             botonNumero9 = new Button();
             BotonParaPromedio = new Button();
-            BotonAñadirAMemoria = new Button();
+            BotonAnadirAMemoria = new Button();
             BotonIgual = new Button();
             botonNumero6 = new Button();
             botonNumero5 = new Button();
@@ -51,7 +51,7 @@
             BotonMultiplicar = new Button();
             botonResta = new Button();
             botonSuma = new Button();
-            PanelDeBitácora = new Panel();
+            PanelDeBitacora = new Panel();
             SuspendLayout();
             // 
             // botonBinario
@@ -133,15 +133,15 @@
             BotonParaPromedio.UseVisualStyleBackColor = true;
             BotonParaPromedio.Click += botonPromedio;
             // 
-            // BotonAñadirAMemoria
+            // BotonAnadirAMemoria
             // 
-            BotonAñadirAMemoria.Location = new Point(278, 218);
-            BotonAñadirAMemoria.Name = "BotonAñadirAMemoria";
-            BotonAñadirAMemoria.Size = new Size(67, 49);
-            BotonAñadirAMemoria.TabIndex = 18;
-            BotonAñadirAMemoria.Text = "M+";
-            BotonAñadirAMemoria.UseVisualStyleBackColor = true;
-            BotonAñadirAMemoria.Click += AñadirAMemoria_Click;
+            BotonAnadirAMemoria.Location = new Point(278, 218);
+            BotonAnadirAMemoria.Name = "BotonAnadirAMemoria";
+            BotonAnadirAMemoria.Size = new Size(67, 49);
+            BotonAnadirAMemoria.TabIndex = 18;
+            BotonAnadirAMemoria.Text = "M+";
+            BotonAnadirAMemoria.UseVisualStyleBackColor = true;
+            BotonAnadirAMemoria.Click += AnadirAMemoria_Click;
             // 
             // BotonIgual
             // 
@@ -283,24 +283,24 @@
             botonSuma.UseVisualStyleBackColor = true;
             botonSuma.Click += buttonSuma_Click;
             // 
-            // PanelDeBitácora
+            // PanelDeBitacora
             // 
-            PanelDeBitácora.AutoScroll = true;
-            PanelDeBitácora.BorderStyle = BorderStyle.FixedSingle;
-            PanelDeBitácora.Cursor = Cursors.Cross;
-            PanelDeBitácora.Location = new Point(13, 150);
-            PanelDeBitácora.Name = "PanelDeBitácora";
-            PanelDeBitácora.Size = new Size(200, 288);
-            PanelDeBitácora.TabIndex = 33;
-            PanelDeBitácora.Visible = false;
-            PanelDeBitácora.Paint += BitacoraPanel;
+            PanelDeBitacora.AutoScroll = true;
+            PanelDeBitacora.BorderStyle = BorderStyle.FixedSingle;
+            PanelDeBitacora.Cursor = Cursors.Cross;
+            PanelDeBitacora.Location = new Point(13, 150);
+            PanelDeBitacora.Name = "PanelDeBitacora";
+            PanelDeBitacora.Size = new Size(200, 288);
+            PanelDeBitacora.TabIndex = 33;
+            PanelDeBitacora.Visible = false;
+            PanelDeBitacora.Paint += BitacoraPanel;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(370, 450);
-            Controls.Add(PanelDeBitácora);
+            Controls.Add(PanelDeBitacora);
             Controls.Add(botonSuma);
             Controls.Add(botonResta);
             Controls.Add(BotonMultiplicar);
@@ -315,7 +315,7 @@
             Controls.Add(botonNumero5);
             Controls.Add(botonNumero4);
             Controls.Add(BotonIgual);
-            Controls.Add(BotonAñadirAMemoria);
+            Controls.Add(BotonAnadirAMemoria);
             Controls.Add(BotonParaPromedio);
             Controls.Add(botonNumero9);
             Controls.Add(botonNumero8);
@@ -341,7 +341,7 @@
         private Button botonNumero8;
         private Button botonNumero9;
         private Button BotonParaPromedio;
-        private Button BotonAñadirAMemoria;
+        private Button BotonAnadirAMemoria;
         private Button BotonIgual;
         private Button botonNumero6;
         private Button botonNumero5;
@@ -356,6 +356,6 @@
         private Button BotonMultiplicar;
         private Button botonResta;
         private Button botonSuma;
-        private Panel PanelDeBitácora;
+        private Panel PanelDeBitacora;
     }
 }

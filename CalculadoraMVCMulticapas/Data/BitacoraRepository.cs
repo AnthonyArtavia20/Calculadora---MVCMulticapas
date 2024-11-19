@@ -18,7 +18,7 @@
             }
 
             // Combinar con la carpeta Data
-            _path = Path.Combine(solutionDirectory, "Data", "Bitácora.txt");
+            _path = Path.Combine(solutionDirectory, "Data", "Bitacora.txt");
 
             // Verificar si el directorio existe, si no, crearlo
             string directory = Path.GetDirectoryName(_path)!;
@@ -54,10 +54,10 @@
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error al escribir en la bitácora: {ex.Message}");
+                throw new Exception($"Error al escribir en la bitacora: {ex.Message}");
             }
         }
-        public List<string> ObtenerRegistros() //Sirve para actualizar el panel de la bitácora.
+        public List<string> ObtenerRegistros() //Sirve para actualizar el panel de la bitacora.
         {
             return File.Exists(_path)
                 ? File.ReadAllLines(_path).ToList()
@@ -65,8 +65,8 @@
         }
 
         public void GuardarOperacionBasica(double operador1, string operacion, double operador2, double resultado)
-        { //Para +,-,*,/
-            string registro = $"{operador1} {operacion} {operador2} = {resultado}";
+        {
+            string registro = $"{operador1.ToString("G")} {operacion} {operador2.ToString("G")} = {resultado.ToString("G")}";
             GuardarOperacion(registro);
         }
 
@@ -91,6 +91,12 @@
         public void GuardarOperacionPromedio(string numerosMemoria, double promedio)
         {
             string registro = $"Avg {numerosMemoria} = {promedio}";
+            GuardarOperacion(registro);
+        }
+
+        public void GuardarOperacionIgual(double numero)
+        {
+            string registro = $"{numero} = {numero}";
             GuardarOperacion(registro);
         }
     }
