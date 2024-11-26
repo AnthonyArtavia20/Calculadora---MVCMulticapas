@@ -62,6 +62,7 @@ namespace CalculadoraMVCMulticapas
         }
         private void buttonSuma_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = null; // Quita el foco del botón actual.
             _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "+";
@@ -70,6 +71,7 @@ namespace CalculadoraMVCMulticapas
 
         private void botonResta_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = null; // Quita el foco del botón actual.
             _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "-";
@@ -78,6 +80,7 @@ namespace CalculadoraMVCMulticapas
 
         private void BotonMulti_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = null; // Quita el foco del botón actual.
             _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "*";
@@ -86,6 +89,7 @@ namespace CalculadoraMVCMulticapas
 
         private void buttonDividir_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = null; // Quita el foco del botón actual.
             _calculadoraService.Operador1 = Convert.ToDouble(PantallaDeResultado.Text);
             calculadoraController.ProcesarOperacionPendiente();
             operacionActual = "/";
@@ -93,11 +97,13 @@ namespace CalculadoraMVCMulticapas
         }
         private void BotonLimpiar_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = null; // Quita el foco del botón actual.
             calculadoraController.ReiniciarCalcu();
             ReiniciarCalculadora = true; //Reiniciar el estado de operacion
         }
         private void botonDecimal_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = null; // Quita el foco del botón actual.
             PantallaDeResultado.Text = PantallaDeResultado.Text + ",";
         }
 
@@ -111,6 +117,8 @@ namespace CalculadoraMVCMulticapas
         }
         private void EsprimoONo(object sender, EventArgs e)
         {
+            this.ActiveControl = null; // Quita el foco del botón actual.
+
             try
             {
                 if (PantallaDeResultado.Text.Contains("Binario"))
@@ -148,6 +156,7 @@ namespace CalculadoraMVCMulticapas
         }
         private void MostrarEnBinario(object sender, EventArgs e)
         {
+            this.ActiveControl = null; // Quita el foco del botón actual.
             try
             {
                 if (PantallaDeResultado.Text.Contains(",") || PantallaDeResultado.Text.Contains("."))
@@ -185,6 +194,7 @@ namespace CalculadoraMVCMulticapas
         }
         private void botonPromedio(object sender, EventArgs e)
         {
+            this.ActiveControl = null; // Quita el foco del botón actual.
             double PromedioAMostrar = calculadoraController.SacarPromedioYMostrarlo();
             PantallaDeResultado.Text = PromedioAMostrar.ToString();
         }
@@ -192,6 +202,8 @@ namespace CalculadoraMVCMulticapas
         private void botonNumero_Click(object sender, EventArgs e) //Para no tener que hacer un metodo por boton, en FormsDisigner en los botones se llama este metodo.
         {
             Button boton = (Button)sender;
+            this.ActiveControl = null; // Quita el foco del botón actual.
+
 
             if (PantallaListaParaNuevoNumero)
             {
@@ -284,17 +296,17 @@ namespace CalculadoraMVCMulticapas
             }
 
             // Si es decimal, verificar que no exista ya un punto
-            if (numero == "." && PantallaDeResultado.Text.Contains("."))
+            if (numero == "." && PantallaDeResultado.Text.Contains(","))
                 return;
 
             // Si es el primer carácter y es un punto, agregar 0 antes
-            if (PantallaDeResultado.Text.Length == 0 && numero == ".")
+            if (PantallaDeResultado.Text.Length == 0 && numero == ",")
             {
                 PantallaDeResultado.Text = "0";
             }
 
             // Si hay solo un 0 y no es punto decimal, reemplazar el 0
-            if (PantallaDeResultado.Text == "0" && numero != ".")
+            if (PantallaDeResultado.Text == "0" && numero != ",")
             {
                 PantallaDeResultado.Text = numero;
                 return;

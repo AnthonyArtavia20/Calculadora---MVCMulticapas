@@ -68,6 +68,7 @@
             // 
             PantallaDeResultado.Location = new Point(31, 26);
             PantallaDeResultado.Name = "PantallaDeResultado";
+            PantallaDeResultado.ReadOnly = true;
             PantallaDeResultado.Size = new Size(314, 23);
             PantallaDeResultado.TabIndex = 2;
             PantallaDeResultado.Text = "0";
@@ -100,7 +101,9 @@
             boton7.Size = new Size(53, 49);
             boton7.TabIndex = 5;
             boton7.Text = "7";
+            boton7.UseCompatibleTextRendering = true;
             boton7.UseVisualStyleBackColor = true;
+            boton7.UseWaitCursor = true;
             boton7.Click += botonNumero_Click;
             // 
             // botonNumero8
@@ -324,6 +327,7 @@
             Controls.Add(BotonEsPrimoONo);
             Controls.Add(PantallaDeResultado);
             Controls.Add(botonBinario);
+            KeyPreview = true;
             Name = "Form1";
             Text = "Calculadora - MVCMulticapas";
             Load += Form1_Load;
