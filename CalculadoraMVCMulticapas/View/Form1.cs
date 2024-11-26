@@ -257,7 +257,7 @@ namespace CalculadoraMVCMulticapas
                 operacionActual = "/";
                 PantallaListaParaNuevoNumero = true;
             }
-            else if (e.KeyCode == Keys.Decimal || e.KeyCode == Keys.OemPeriod)
+            else if (e.KeyCode == Keys.Oemcomma || e.KeyCode == Keys.Decimal)
             {
                 AgregarNumeroPantalla(",");
             }
